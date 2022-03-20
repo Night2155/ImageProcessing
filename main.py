@@ -24,7 +24,7 @@ def GettingCamera():
             break
 
 
-path = cv2.samples.findFile(os.path.join(os.getcwd(), '../YuruCamp.jpg'))
+path = cv2.samples.findFile(os.path.join(os.getcwd(), 'image/YuruCamp.jpg'))
 #os.getcwd()當前程式執行路徑
 NormalImg(path)
 GettingCamera()

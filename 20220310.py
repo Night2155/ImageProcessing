@@ -57,7 +57,7 @@ def show_histogram_with_subplot(img):
     plt.xlim([0, 256])
     plt.show()
 
-path = "C:\\Users\\09765\\Pictures\\CAMP.jpg"
+path = "image\\AzurLane.png"
 img = cv.imread(path)
 img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
 GrayImgori = cv.imread(path, cv.IMREAD_GRAYSCALE)
