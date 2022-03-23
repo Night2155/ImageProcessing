@@ -2,12 +2,12 @@ import cv2
 import numpy as np
 import os
 
-def NormalImg(path):
+def NormalImg (path):
     img = cv2.imread(path)
-    cv2.namedWindow("Normal",cv2.WINDOW_NORMAL)
+    cv2.namedWindow("Normal", cv2.WINDOW_NORMAL)
     cv2.imshow("Normal", img)
 
-def GettingCamera():
+def GettingCamera ():
     cap = cv2.VideoCapture(0)
     while True:
         ret, frame = cap.read()
@@ -25,10 +25,11 @@ def GettingCamera():
 
 
 path = cv2.samples.findFile(os.path.join(os.getcwd(), 'image/YuruCamp.jpg'))
-#os.getcwd()當前程式執行路徑
+# os.getcwd() 當前程式執行路徑
 NormalImg(path)
-GettingCamera()
+# GettingCamera()
 
-cv2.waitKey()
+if cv2.waitKey() == ord("c"):  # 按下C 就關閉所有視窗
+    cv2.destroyAllWindows()
 
 

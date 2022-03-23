@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-from Label import Ui_MainWindow
+from MainWindow import Ui_MainWindow # 引入UI設計檔
 import sys
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -7,7 +7,12 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.label.setText('Hello World!')
+
+        # Menu
+        self.ui.actionOpen_File.setShortcut('Ctrl+O')
+        self.ui.actionClose.triggered.connect(app.exit)
+        self.ui.actionOpen_File.triggered.connect(QtWidgets.QFileDialog.getExistingDirectory())
+
 
 
 if __name__ == '__main__':
