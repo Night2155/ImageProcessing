@@ -6,21 +6,36 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>803</width>
-    <height>597</height>
+    <width>979</width>
+    <height>779</height>
    </rect>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
   </property>
   <property name="windowTitle">
    <string>影像處理平台</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#MainWindow, #centralwidget, #ImageLabel{
+	background-color : rgb(0, 0, 0);
+	color: gold;
+}
+#File_Btn{
+	border-image:url(image/Setting_icon.ico) 0 0 0 0 stretch  stretch;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="File_Btn">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>20</x>
+      <y>20</y>
       <width>71</width>
-      <height>41</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
@@ -29,40 +44,33 @@
       <pointsize>16</pointsize>
      </font>
     </property>
-    <property name="text">
-     <string>檔案</string>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton">
+   <widget class="QLabel" name="ImageLabel">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>10</y>
-      <width>81</width>
-      <height>41</height>
+      <x>190</x>
+      <y>0</y>
+      <width>781</width>
+      <height>731</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <family>標楷體</family>
-      <pointsize>16</pointsize>
-     </font>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
     </property>
     <property name="text">
-     <string>設定</string>
+     <string>TEXT</string>
     </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>90</y>
-      <width>631</width>
-      <height>391</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -71,7 +79,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>803</width>
+     <width>979</width>
      <height>21</height>
     </rect>
    </property>
