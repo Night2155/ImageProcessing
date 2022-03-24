@@ -12,10 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_MainWindow(object):
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(803, 597)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.File_Btn = QtWidgets.QPushButton(self.centralwidget)
@@ -32,14 +31,21 @@ class Ui_MainWindow(object):
         font.setPointSize(16)
         self.toolButton.setFont(font)
         self.toolButton.setObjectName("toolButton")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setGeometry(QtCore.QRect(10, 60, 771, 491))
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 803, 21))
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setEnabled(True)
+        self.statusbar.setSizeGripEnabled(True)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.actionOpen_File = QtWidgets.QAction(MainWindow)
@@ -60,4 +66,5 @@ class Ui_MainWindow(object):
         self.toolButton.setText(_translate("MainWindow", "設定"))
         self.menu.setTitle(_translate("MainWindow", "選單"))
         self.actionOpen_File.setText(_translate("MainWindow", "Open File"))
+        self.actionOpen_File.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.actionClose.setText(_translate("MainWindow", "Close"))
