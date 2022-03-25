@@ -17,14 +17,15 @@ class Ui_MainWindow(object):
         MainWindow.resize(979, 779)
         MainWindow.setMouseTracking(False)
         MainWindow.setAutoFillBackground(False)
-        MainWindow.setStyleSheet("* {\n"
+        MainWindow.setStyleSheet("#MainWindow, #centralwidget, #ImageLabel, #File_Btn,#statusbar{\n"
 "    background-color : rgb(0, 0, 0);\n"
 "    color: gold;\n"
-"}")
+"}\n"
+"")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.File_Btn = QtWidgets.QPushButton(self.centralwidget)
-        self.File_Btn.setGeometry(QtCore.QRect(30, 20, 101, 41))
+        self.File_Btn.setGeometry(QtCore.QRect(10, 10, 91, 31))
         font = QtGui.QFont()
         font.setFamily("標楷體")
         font.setPointSize(16)
