@@ -57,7 +57,7 @@ def show_histogram_with_subplot(img):
     plt.xlim([0, 256])
     plt.show()
 
-path = "image\\AzurLane.png"
+path = "image\\YuruCamp.jpg"
 img = cv.imread(path)
 img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
 GrayImgori = cv.imread(path, cv.IMREAD_GRAYSCALE)
@@ -66,5 +66,5 @@ cv.imshow('Gray ori', GrayImgori)
 #image_contrast_enhance_gray(img, gamma=5)
 #image_contrast_enhance_gray_easy(GrayImgori.astype(np.float), gamma=5, c=1)
 show_color_histo(img)
-show_histogram_with_subplot(img)
+show_histogram_with_subplot(GrayImgori)
 cv.waitKey()

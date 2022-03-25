@@ -3,10 +3,10 @@ import numpy as np
 import os
 
 def NormalImg (path):
-    img = cv2.imread(path)
+    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     cv2.namedWindow("Normal", cv2.WINDOW_NORMAL)
     cv2.imshow("Normal", img)
-
+    print(img.shape)
 def GettingCamera ():
     cap = cv2.VideoCapture(0)
     while True:
