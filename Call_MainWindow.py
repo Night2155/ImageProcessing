@@ -19,7 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.actionRGB.triggered.connect(self.ImageRGB)
         # Button
         self.ui.File_Btn.clicked.connect(self.OpenFile_chooseFile)
-        self.ui.Save_File_Btn.clicked.connect()
+        #self.ui.Save_File_Btn.clicked.connect()
         # Label
         self.ui.ImageLabel.mousePressEvent = self.Show_Mouse_Press_Position
 
@@ -35,7 +35,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ShowImage(self.oriImg)
 
     def SaveFile(self):
-
+        return 0
 
     def Show_Mouse_Press_Position(self, event):
         self.ui.statusbar.showMessage(f"[show_mouse_press] : {event.x()}, {event.y()}, {event.button()}")
