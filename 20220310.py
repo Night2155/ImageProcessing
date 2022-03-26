@@ -59,7 +59,7 @@ def show_histogram_with_subplot(img):
 
 path = "image\\YuruCamp.jpg"
 img = cv.imread(path)
-img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+img = cv.cvtColor(img, cv.IMREAD_GRAYSCALE)
 GrayImgori = cv.imread(path, cv.IMREAD_GRAYSCALE)
 cv.namedWindow("Gray ori", cv.WINDOW_NORMAL)
 cv.imshow('Gray ori', GrayImgori)
