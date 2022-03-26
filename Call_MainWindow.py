@@ -42,6 +42,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.qimg = QtGui.QImage(img, width, height, bytesPerline, QtGui.QImage.Format_RGB888).rgbSwapped()
         pixmap = QtGui.QPixmap.fromImage(self.qimg)
         self.ui.ImageLabel.resize(width, height)
+        #self.ui.scrollArea.resize(height, width)
         self.ui.ImageLabel.setPixmap(pixmap)
         self.ui.statusbar.showMessage(f"ImageInfo : {height=}, {width=}, {channel=}")
 
@@ -49,13 +50,14 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.file_name == "":
             return
         else:
-            GrayImg #= cv.cvtColor(self.oriImg, cv.COLOR_BGR2GRAY)
-            height, width = GrayImg.shape
-            #pixmap = QtGui.QPixmap.fromImage(GrayImg)
-            self.ui.ImageLabel.resize(width, height)
+            # GrayImg = self.qimg.convertToFormat(QtGui.QImage.Format.Format_Grayscale8) #= cv.cvtColor(self.oriImg, cv.COLOR_BGR2GRAY)
+            # pixmap = QtGui.QPixmap.fromImage(GrayImg)
+            # self.ui.ImageLabel.setPixmap(pixmap)
+            img_gray = cv.cvtColor(self.oriImg, cv.COLOR_BGR2GRAY)
+            height, width = self.oriImg.shape[:2]
+            GrayImg = QtGui.QImage(img_gray, width, height, QtGui.QImage.Format.Format_Indexed8)
+            pixmap = QtGui.QPixmap.fromImage(GrayImg)
             self.ui.ImageLabel.setPixmap(pixmap)
-            self.ui.statusbar.showMessage(f"ImageInfo : {height=}, {width=}")
-
 
 
 if __name__ == '__main__':
