@@ -12,19 +12,28 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.cwd = os.getcwd()
         self.file_name = ""
+        self.thres_value = int(self.ui.Set_Threshold_Value_Slider.value())
         # Menu
         self.ui.actionClose.triggered.connect(app.exit)
         self.ui.actionOpen_File.triggered.connect(self.OpenFile_chooseFile)
         self.ui.actionGray.triggered.connect(self.ImageGray)
         self.ui.actionRGB.triggered.connect(self.ImageRGB)
+        self.ui.actionSave_File.triggered.connect(self.SaveFile)
+        self.ui.actionTresholding.triggered.connect(self.image_Threshold)
+        self.ui.actionHistogram.triggered.connect(self.image_Hist)
         # Button
-        self.ui.File_Btn.clicked.connect(self.OpenFile_chooseFile)
+        #self.ui.File_Btn.clicked.connect(self.OpenFile_chooseFile)
         #self.ui.Save_File_Btn.clicked.connect()
+        self.ui.Show_Hist_Btn.clicked.connect(self.Show_Hist)
         # Label
         self.ui.ImageLabel.mousePressEvent = self.Show_Mouse_Press_Position
+        # Slider
+        self.ui.Set_Threshold_Value_Slider.valueChanged.connect(self.Threshold_Value_Change)
+
 
     def OpenFile_chooseFile(self):  # Open File
-        self.file_name, file_type = QtWidgets.QFileDialog.getOpenFileName(self, "選擇檔案", self.cwd, "ALL Files (*);; PNG Files (*.png);; Jpg Files (*.jpg) ")
+        self.file_name, file_type = QtWidgets.QFileDialog.getOpenFileName(self, "選擇檔案",
+                                                                          self.cwd, "ALL Files (*);; PNG Files (*.png);; Jpg Files (*.jpg) ")
         if self.file_name == "":
             self.ui.statusbar.showMessage("取消開檔")
             return 0
@@ -33,6 +42,29 @@ class MainWindow(QtWidgets.QMainWindow):
             self.oriImg = cv.imread(filename=self.file_name)
             self.ui.menu_2.setEnabled(True)
             self.ShowImage(self.oriImg)
+            self.ui.Set_Threshold_Value_Slider.setEnabled(False)
+
+    def Show_Hist(self):
+        return 0
+
+    def image_Hist(self):
+        return 0
+
+    def image_Threshold(self):  # 顯示二值化後圖像
+        gray = cv.cvtColor(self.oriImg, cv.COLOR_RGB2GRAY)
+        ret, self.threshold_image = cv.threshold(gray, self.thres_value, 255, cv.THRESH_BINARY)
+        height, width = self.threshold_image.shape[:2]
+        qThreshold_image = QtGui.QImage(self.threshold_image, width, height, width, QtGui.QImage.Format.Format_Indexed8)
+        pixmap = QtGui.QPixmap.fromImage(qThreshold_image)
+        self.ui.ImageLabel.setPixmap(pixmap)
+        self.ui.Set_Threshold_Value_Slider.setEnabled(True)
+        return 0
+
+    def Threshold_Value_Change(self):  # 二值化 slider 改變數值
+        self.ui.Text_label_Threshold_value.setText(str(self.thres_value))
+        self.thres_value = int(self.ui.Set_Threshold_Value_Slider.value())
+        self.image_Threshold()
+        return 0
 
     def SaveFile(self):
         return 0
@@ -58,9 +90,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.qGrayImg = QtGui.QImage(img_gray, width, height, width, QtGui.QImage.Format.Format_Indexed8)
         pixmap = QtGui.QPixmap.fromImage(self.qGrayImg)
         self.ui.ImageLabel.setPixmap(pixmap)
+        self.ui.Set_Threshold_Value_Slider.setEnabled(False)
 
     def ImageRGB(self):
         self.ui.ImageLabel.setPixmap(QtGui.QPixmap.fromImage(self.qimg))
+        self.ui.Set_Threshold_Value_Slider.setEnabled(False)
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     window = MainWindow()

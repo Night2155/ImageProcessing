@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1201</width>
+    <width>1167</width>
     <height>890</height>
    </rect>
   </property>
@@ -23,34 +23,12 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="File_Btn">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>標楷體</family>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::DefaultContextMenu</enum>
-    </property>
-    <property name="text">
-     <string>選取檔案</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="ROI_Label">
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>20</y>
-      <width>71</width>
+      <x>940</x>
+      <y>30</y>
+      <width>81</width>
       <height>41</height>
      </rect>
     </property>
@@ -65,32 +43,10 @@
      <string>ROI 大小</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="Save_File_Btn">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>70</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>標楷體</family>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::DefaultContextMenu</enum>
-    </property>
-    <property name="text">
-     <string>儲存檔案</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>60</x>
       <y>20</y>
       <width>821</width>
       <height>761</height>
@@ -148,29 +104,35 @@
     </layout>
    </widget>
    <widget class="QSlider" name="Set_Threshold_Value_Slider">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>230</y>
+      <x>940</x>
+      <y>350</y>
       <width>160</width>
       <height>22</height>
      </rect>
     </property>
     <property name="maximum">
-     <number>255</number>
+     <number>256</number>
     </property>
     <property name="value">
-     <number>0</number>
+     <number>127</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+    <property name="tickPosition">
+     <enum>QSlider::NoTicks</enum>
     </property>
    </widget>
    <widget class="QLabel" name="Text_label">
     <property name="geometry">
      <rect>
-      <x>1000</x>
-      <y>160</y>
+      <x>940</x>
+      <y>270</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -188,9 +150,9 @@
    <widget class="QLabel" name="Text_label_0">
     <property name="geometry">
      <rect>
-      <x>1000</x>
-      <y>200</y>
-      <width>21</width>
+      <x>940</x>
+      <y>320</y>
+      <width>31</width>
       <height>21</height>
      </rect>
     </property>
@@ -207,8 +169,8 @@
    <widget class="QLabel" name="Text_label_255">
     <property name="geometry">
      <rect>
-      <x>1150</x>
-      <y>200</y>
+      <x>1080</x>
+      <y>320</y>
       <width>31</width>
       <height>21</height>
      </rect>
@@ -226,8 +188,8 @@
    <widget class="QLabel" name="Image_Info_label">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>790</y>
+      <x>60</x>
+      <y>800</y>
       <width>281</width>
       <height>41</height>
      </rect>
@@ -242,25 +204,12 @@
      <string>圖片資訊 :</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="Set_Thershold_Value_lineEdit">
+   <widget class="QPushButton" name="Show_Hist_Btn">
     <property name="geometry">
      <rect>
-      <x>1120</x>
-      <y>170</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="maxLength">
-     <number>255</number>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>120</y>
-      <width>101</width>
+      <x>940</x>
+      <y>430</y>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -271,7 +220,39 @@
      </font>
     </property>
     <property name="text">
-     <string>直方圖</string>
+     <string>影像直方圖</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Show_ROI_Info">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>90</y>
+      <width>171</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Text_label_Threshold_value">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>270</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string> 127</string>
     </property>
    </widget>
   </widget>
@@ -280,7 +261,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1201</width>
+     <width>1167</width>
      <height>21</height>
     </rect>
    </property>
@@ -289,11 +270,12 @@
      <string>選單</string>
     </property>
     <addaction name="actionOpen_File"/>
+    <addaction name="actionSave_File"/>
     <addaction name="actionClose"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="title">
      <string>色彩選項</string>
@@ -301,6 +283,7 @@
     <addaction name="actionGray"/>
     <addaction name="actionRGB"/>
     <addaction name="actionHistogram"/>
+    <addaction name="actionTresholding"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -342,6 +325,16 @@
   <action name="actionHistogram">
    <property name="text">
     <string>Histogram</string>
+   </property>
+  </action>
+  <action name="actionSave_File">
+   <property name="text">
+    <string>Save File</string>
+   </property>
+  </action>
+  <action name="actionTresholding">
+   <property name="text">
+    <string>Thresholding</string>
    </property>
   </action>
  </widget>
