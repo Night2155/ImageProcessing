@@ -1,14 +1,18 @@
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 import os
-from ImageProcess import Thresholding
 
-imgpath = "image\\YuruCamp.jpg"
-oriimg = cv2.imread(imgpath, cv2.IMREAD_COLOR)
-img_after = cv2.cvtColor(oriimg, cv2.COLOR_BGR2GRAY)
-#cv2.imshow("ori", oriimg)
-#cv2.imshow("Gray", img_after)
-thre = 127
-Thresholding(img_after,200)
+import ImageProcess
+from ImageProcess import *
+
+imgpath = "image\\Ice Fox.jpg"
+oriimg = cv2.imread(imgpath)
+gray = cv.cvtColor(oriimg, cv2.COLOR_RGB2GRAY)
+#cv.imshow("Gray", ImageProcess.GrayImg(oriimg))
+#cv.imshow("Hist", ImageProcess.Histogram(oriimg))
+#cv.imshow("Thrsehold", ImageProcess.Thresholding(oriimg, 127))
+ImageProcess.Show_Histogram(gray)
+ImageProcess.Show_Histogram(oriimg)
 cv2.waitKey(0)
 

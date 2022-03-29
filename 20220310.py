@@ -16,8 +16,6 @@ def image_contrast_enhance_gray(img, gamma):
     cv.namedWindow("Contrast enhanced", cv.WINDOW_NORMAL)
     cv.imshow("Contrast enhanced", new_image)
 
-
-
 def image_contrast_enhance_gray_easy(img, gamma, c):
     out = img.copy()
     out /= 255.
@@ -26,7 +24,6 @@ def image_contrast_enhance_gray_easy(img, gamma, c):
     out = out.astype(np.uint8)
     cv.namedWindow("Gamma img easy", cv.WINDOW_NORMAL)
     cv.imshow("Gamma img easy", out)
-
 
 def show_color_histo(img):
     color = ('b', 'g', 'r')
@@ -37,15 +34,15 @@ def show_color_histo(img):
     plt.show()
 
 def show_histogram_with_subplot(img):
-    # cv.imshow('original gray image',img)
+    cv.imshow('original gray image',img)
     mask = np.zeros(img.shape[:2], np.uint8)
     mask[100:300, 200:500] = 255
     masked_img = cv2.bitwise_and(img, img, mask=mask)
     hist_full = cv.calcHist([img], [0], None, [256], [0, 256])
     hist_mask = cv.calcHist([img], [0], mask, [256], [0, 256])
 
-    plt.subplot(2, 2, 1)
-    plt.imshow(img)
+    #plt.subplot(2, 2, 1)
+    #plt.imshow(img)
     plt.subplot(2, 2, 2)
     plt.imshow(mask)
     plt.subplot(2, 2, 3)
@@ -57,12 +54,13 @@ def show_histogram_with_subplot(img):
     plt.xlim([0, 256])
     plt.show()
 
-path = "image\\YuruCamp.jpg"
+path = "image\\triodoshippo_heroImageFullWidthMobile.jpg"
 img = cv.imread(path)
-img = cv.cvtColor(img, cv.IMREAD_GRAYSCALE)
+
 GrayImgori = cv.imread(path, cv.IMREAD_GRAYSCALE)
-cv.namedWindow("Gray ori", cv.WINDOW_NORMAL)
-cv.imshow('Gray ori', GrayImgori)
+#cv.namedWindow("ori", cv.WINDOW_NORMAL)
+#cv.imshow("ori", img)
+#cv.imshow('Gray ori', GrayImgori)
 #image_contrast_enhance_gray(img, gamma=5)
 #image_contrast_enhance_gray_easy(GrayImgori.astype(np.float), gamma=5, c=1)
 show_color_histo(img)

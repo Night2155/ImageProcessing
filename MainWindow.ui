@@ -116,7 +116,7 @@
      </rect>
     </property>
     <property name="maximum">
-     <number>256</number>
+     <number>255</number>
     </property>
     <property name="value">
      <number>127</number>
@@ -314,17 +314,17 @@
   </action>
   <action name="actionGray">
    <property name="text">
-    <string>Gray</string>
+    <string>影像灰階</string>
    </property>
   </action>
   <action name="actionRGB">
    <property name="text">
-    <string>RGB</string>
+    <string>轉換原始圖片</string>
    </property>
   </action>
   <action name="actionHistogram">
    <property name="text">
-    <string>Histogram</string>
+    <string>影像直方圖均衡化</string>
    </property>
   </action>
   <action name="actionSave_File">
@@ -334,7 +334,7 @@
   </action>
   <action name="actionTresholding">
    <property name="text">
-    <string>Thresholding</string>
+    <string>影像二值化</string>
    </property>
   </action>
  </widget>
