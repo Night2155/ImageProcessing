@@ -1,17 +1,21 @@
 import os
 from PyQt5 import QtWidgets, QtGui, QtCore
 import ImageProcess
-from MainWindow import Ui_MainWindow  # 引入UI設計檔
+from MainWindow import Ui_MainWindow  # 引入主畫面設計
 import sys
 import cv2 as cv
 
 class MainWindow(QtWidgets.QMainWindow):
+
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.cwd = os.getcwd()
         self.file_name = ""
+        movie = QtGui.QMovie("image\\PartyBird.gif")  # 設定 Gif
+        self.ui.Gif_Label.setMovie(movie)  # 放入 Label 輸出
+        movie.start()
         # Menu
         self.ui.actionClose.triggered.connect(app.exit)
         self.ui.actionOpen_File.triggered.connect(self.OpenFile_chooseFile)
@@ -21,15 +25,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.actionTresholding.triggered.connect(self.image_Threshold)
         self.ui.actionHistogram.triggered.connect(self.image_Hist)
         # Button
-        #self.ui.File_Btn.clicked.connect(self.OpenFile_chooseFile)
-        #self.ui.Save_File_Btn.clicked.connect()
         self.ui.Show_Hist_Btn.clicked.connect(self.Show_Hist)
         # Label
         self.ui.ImageLabel.mousePressEvent = self.Show_Mouse_Press_Position
         # Slider
         self.ui.Set_Threshold_Value_Slider.valueChanged.connect(self.Threshold_Value_Change)
-        # LineEdit
-        #self.ui.lineEdit.textEdited(self.Threshold_Value_Change)
 
     def OpenFile_chooseFile(self):  # Open File
         self.file_name, file_type = QtWidgets.QFileDialog.getOpenFileName(self, "選擇檔案",
@@ -45,9 +45,18 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ShowImage(self.oriImg)
             self.ui.Set_Threshold_Value_Slider.setEnabled(False)
 
+    def SaveFile(self):
+        if self.file_name == "":
+            return 0
+        else:
+            savepath, file_type = QtWidgets.QFileDialog.getSaveFileName(self, "Image_Save", "Image", "PNG File (*.png)")
+            cv.imwrite(savepath, self.cv2_image)
+
     def Show_Hist(self):
-        ImageProcess.Show_Histogram(self.cv2_image)
-        return 0
+        if self.file_name == "":
+            return 0
+        else:
+            ImageProcess.Show_Histogram(self.cv2_image)
 
     def image_Hist(self):
         img_hist = ImageProcess.Histogram(self.oriImg)
@@ -71,15 +80,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def Threshold_Value_Change(self):  # 二值化 slider 改變數值
         self.ui.Text_label_Threshold_value.setText(str(self.ui.Set_Threshold_Value_Slider.value()))
-        self.thres_value = int(self.ui.Set_Threshold_Value_Slider.value())
         self.image_Threshold()
 
-    def SaveFile(self):
-        if self.file_name == "":
-            return 0
-        else:
-            savepath, file_type = QtWidgets.QFileDialog.getSaveFileName(self, "Image_Save", "Image", "PNG File (*.png)")
-            cv.imwrite(savepath, self.cv2_image)
 
     def Show_Mouse_Press_Position(self, event):
         self.ui.statusbar.showMessage(f"[show_mouse_press] : {event.x()}, {event.y()}, {event.button()}")
@@ -108,6 +110,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.ImageLabel.setPixmap(QtGui.QPixmap.fromImage(self.qimg))
         self.cv2_image = self.oriImg
         self.ui.Set_Threshold_Value_Slider.setEnabled(False)
+
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

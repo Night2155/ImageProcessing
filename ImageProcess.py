@@ -1,7 +1,6 @@
 import cv2 as cv
 import matplotlib.pyplot as plt
 
-
 def GrayImg(oriimg):
     grayimg = cv.cvtColor(oriimg, cv.COLOR_RGB2GRAY)
     return grayimg
@@ -29,8 +28,8 @@ def Show_Histogram(oriimg):
         color = 'gray'
         alpha = 0.6
         hist_graphic = cv.calcHist([oriimg], [0], None, [256], [0, 256])
-        plt.bar(range(0, 256), hist_graphic.ravel(), color=color, alpha=alpha)
+        bar = plt.bar(range(0, 256), hist_graphic.ravel(), color=color, alpha=alpha)
+        print(bar)
         plt.title("Gray Histogram")
         plt.show()
 
-    return 0
