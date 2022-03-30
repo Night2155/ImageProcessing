@@ -13,6 +13,16 @@
   <property name="windowTitle">
    <string>Histogram</string>
   </property>
+  <widget class="QGraphicsView" name="HistGraphics">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>441</width>
+     <height>381</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

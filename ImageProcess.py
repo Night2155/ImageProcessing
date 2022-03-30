@@ -28,6 +28,7 @@ def Show_Histogram(oriimg):
         color = 'gray'
         alpha = 0.6
         hist_graphic = cv.calcHist([oriimg], [0], None, [256], [0, 256])
+        plt.figure()
         bar = plt.bar(range(0, 256), hist_graphic.ravel(), color=color, alpha=alpha)
         print(bar)
         plt.title("Gray Histogram")

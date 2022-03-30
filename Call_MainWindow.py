@@ -4,7 +4,7 @@ import ImageProcess
 from MainWindow import Ui_MainWindow  # 引入主畫面設計
 import sys
 import cv2 as cv
-import numpy as np
+from Show_plot import Figure_Canvas
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
@@ -89,7 +89,9 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             self.ui.Image_Info_label.setText(f"圖片資訊 : 高{self.cv2_image.shape[0]} 寬{self.cv2_image.shape[1]}")
             self.ui.statusbar.showMessage("顯示影像直方圖")
-            ImageProcess.Show_Histogram(self.cv2_image)
+            #ImageProcess.Show_Histogram(self.cv2_image)
+            figure = Figure_Canvas()
+            figure.Show_Histogram(self.cv2_image)
 
     def image_Hist(self):
         img_hist = ImageProcess.Histogram(self.oriImg)
@@ -147,6 +149,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.Image_Info_label.setText(f"圖片資訊 : 高{height} 寬{width}")
         self.ui.statusbar.showMessage("RGB影像")
         self.ui.Set_Threshold_Value_Slider.setEnabled(False)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
