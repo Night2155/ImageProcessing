@@ -5,13 +5,11 @@ from matplotlib.figure import Figure
 import cv2
 import matplotlib.pyplot as plt
 
-class Figure_Canvas(FigureCanvas):   # 通过继承FigureCanvas类，使得该类既是一个PyQt5的Qwidget，又是一个matplotlib的FigureCanvas，这是连接pyqt5与matplot lib的关键
+class Figure_Canvas(FigureCanvas):
 
-    def __init__(self, parent=None, width=6, height=5, dpi=100):
-        fig = Figure(figsize=(width, height), dpi=100)  # 创建一个Figure，注意：该Figure为matplotlib下的figure，不是matplotlib.pyplot下面的figure
-        FigureCanvas.__init__(self, fig) # 初始化父类
-        self.setParent(parent)
-        self.axes = fig.add_subplot(111) # 调用figure下面的add_subplot方法，类似于matplotlib.pyplot下面的subplot方法
+    def __init__(self):
+        fig = Figure(figsize=(10, 10), dpi=100)
+        FigureCanvas.__init__(self, fig)
 
     def Show_Histogram(self, oriimg):
         if len(oriimg.shape) == 3:
