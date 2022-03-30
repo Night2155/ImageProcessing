@@ -37,6 +37,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def Get_Press_Position(self, event):
         self.X0, self.Y0 = event.x(), event.y()
+        #self.ui.Show_ROI_Info.setText(f'{event.x()=}{event.y()=}')
 
     def Mouse_Realease(self, event):
         self.X1, self.Y1 = event.x(), event.y()
@@ -49,6 +50,7 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             #ROI_image = self.cv2_image[int(self.TY):int(self.TY)+int(height), int(self.LX):int(self.LX)+int(width)]
             ROI_image = self.cv2_image[int(self.TY):int(self.DY), int(self.LX):int(self.RX)]
+            cv.namedWindow("ROI Image", cv.WINDOW_NORMAL)
             cv.imshow("ROI Image", ROI_image)
             self.ui.Show_ROI_Info.setText(f"ROI : \n{height=} {width=}")
             cv.waitKey(0)
