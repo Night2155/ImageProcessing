@@ -5,6 +5,7 @@ from MainWindow import Ui_MainWindow  # 引入主畫面設計
 import sys
 import cv2 as cv
 from Show_plot import Figure_Canvas
+from ClassFile.Histogram import Ui_Dialog
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
@@ -16,6 +17,8 @@ class MainWindow(QtWidgets.QMainWindow):
         movie = QtGui.QMovie("image\\PartyBird.gif")  # 設定 Gif
         self.ui.Gif_Label.setMovie(movie)  # 放入 Label 輸出
         movie.start()
+        self.oriHeight = self.ui.ImageLabel.height()
+        self.oriWidth = self.ui.ImageLabel.width()
         # Menu
         self.ui.actionClose.triggered.connect(app.exit)
         self.ui.actionOpen_File.triggered.connect(self.OpenFile_chooseFile)
@@ -48,13 +51,16 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.statusbar.showMessage("未選取影像無法截出ROI")
             self.ui.Show_ROI_Info.setText(f"ROI : \n{height=} {width=}")
         else:
-            #ROI_image = self.cv2_image[int(self.TY):int(self.TY)+int(height), int(self.LX):int(self.LX)+int(width)]
-            ROI_image = self.cv2_image[int(self.TY):int(self.DY), int(self.LX):int(self.RX)]
-            cv.namedWindow("ROI Image", cv.WINDOW_NORMAL)
-            cv.imshow("ROI Image", ROI_image)
-            self.ui.Show_ROI_Info.setText(f"ROI : \n{height=} {width=}")
-            cv.waitKey(0)
-            cv.destroyAllWindows()
+            if height or width != 0 :
+                #ROI_image = self.cv2_image[int(self.TY):int(self.TY)+int(height), int(self.LX):int(self.LX)+int(width)]
+                ROI_image = self.cv2_image[int(self.TY):int(self.DY), int(self.LX):int(self.RX)]
+                cv.namedWindow("ROI Image", cv.WINDOW_NORMAL)
+                cv.imshow("ROI Image", ROI_image)
+                self.ui.Show_ROI_Info.setText(f"ROI : \n{height=} {width=}")
+                cv.waitKey(0)
+                cv.destroyAllWindows()
+            else:
+                self.ui.statusbar.showMessage("影像未選取")
 
     def Mouse_Move(self, event):
         self.flag = True
@@ -95,6 +101,7 @@ class MainWindow(QtWidgets.QMainWindow):
             figure = Figure_Canvas()
             figure.Show_Histogram(self.cv2_image)
 
+
     def image_Hist(self):
         img_hist = ImageProcess.Histogram(self.oriImg)
         self.cv2_image = img_hist
@@ -126,7 +133,13 @@ class MainWindow(QtWidgets.QMainWindow):
         bytesPerline = 3*width
         self.qimg = QtGui.QImage(img, width, height, bytesPerline, QtGui.QImage.Format_RGB888).rgbSwapped()
         pixmap = QtGui.QPixmap.fromImage(self.qimg)
-        self.ui.ImageLabel.resize(width, height)
+
+        self.ui.scrollArea.resize(self.oriWidth, self.oriHeight)
+        if height <= self.ui.scrollArea.height():
+            self.ui.scrollArea.resize(QtCore.QSize(self.ui.scrollArea.width(), height))
+        if width <= self.ui.scrollArea.width():
+            self.ui.scrollArea.resize(QtCore.QSize(width, self.ui.scrollArea.height()))
+
         self.ui.ImageLabel.setPixmap(pixmap)
         self.ui.Image_Info_label.setText(f"圖片資訊 : 高{height} 寬{width}")
         self.ui.statusbar.showMessage("RGB影像")
