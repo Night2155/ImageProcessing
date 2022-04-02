@@ -14,24 +14,29 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.cwd = os.getcwd()
         self.file_name = ""
+        # GIF Label
         movie = QtGui.QMovie("image\\PartyBird.gif")  # 設定 Gif
         self.ui.Gif_Label.setMovie(movie)  # 放入 Label 輸出
-        movie.start()
+        movie.start()  # GIF 播放
+
         self.oriHeight = self.ui.ImageLabel.height()
         self.oriWidth = self.ui.ImageLabel.width()
-        # Menu
-        self.ui.actionClose.triggered.connect(app.exit)
-        self.ui.actionOpen_File.triggered.connect(self.OpenFile_chooseFile)
-        self.ui.actionGray.triggered.connect(self.ImageGray)
-        self.ui.actionRGB.triggered.connect(self.ImageRGB)
-        self.ui.actionSave_File.triggered.connect(self.SaveFile)
-        self.ui.actionTresholding.triggered.connect(self.image_Threshold)
-        self.ui.actionHistogram.triggered.connect(self.image_Hist)
-        self.ui.actionROI.triggered.connect(self.Label_mouse_Event)
+        # Menu 1
+        self.ui.actionClose.triggered.connect(app.exit)  # 關閉平台
+        self.ui.actionOpen_File.triggered.connect(self.OpenFile_chooseFile)  # 開啟影像
+        self.ui.actionSave_File.triggered.connect(self.SaveFile)  # 儲存影像
+        # Menu 2
+        self.ui.actionGray.triggered.connect(self.ImageGray)  # 轉換灰階影像
+        self.ui.actionRGB.triggered.connect(self.ImageRGB)  # 轉換原始圖像
+        self.ui.actionTresholding.triggered.connect(self.image_Threshold)  # 影像二值化
+        self.ui.actionHistogram.triggered.connect(self.image_Hist)  # 灰階均衡化
+        #self.ui.actionHSV.triggered.connect()  # 轉換 HSV 影像
+        # Menu 3
+        self.ui.actionROI.triggered.connect(self.Label_mouse_Event)  # 選取ROI
         # Button
-        self.ui.Show_Hist_Btn.clicked.connect(self.Show_Hist)
+        self.ui.Show_Hist_Btn.clicked.connect(self.Show_Hist)  # 顯示影像直方圖
         # Slider
-        self.ui.Set_Threshold_Value_Slider.valueChanged.connect(self.Threshold_Value_Change)
+        self.ui.Set_Threshold_Value_Slider.valueChanged.connect(self.Threshold_Value_Change)  # 調整二值化閥值
 
     def Label_mouse_Event(self):
         self.ui.ImageLabel.mousePressEvent = self.Get_Press_Position
@@ -49,21 +54,21 @@ class MainWindow(QtWidgets.QMainWindow):
         height, width = (self.DY - self.TY), (self.RX - self.LX)
         if self.file_name == "":
             self.ui.statusbar.showMessage("未選取影像無法截出ROI")
-            self.ui.Show_ROI_Info.setText(f"ROI : \n{height=} {width=}")
+            # self.ui.Show_ROI_Info.setText("未選取影像\n無法截出ROI")
         else:
-            if height or width != 0 :
-                #ROI_image = self.cv2_image[int(self.TY):int(self.TY)+int(height), int(self.LX):int(self.LX)+int(width)]
+            if height or width != 0:
+                #  ROI_image = self.cv2_image[int(self.TY):int(self.TY)+int(height), int(self.LX):int(self.LX)+int(width)]
                 ROI_image = self.cv2_image[int(self.TY):int(self.DY), int(self.LX):int(self.RX)]
                 cv.namedWindow("ROI Image", cv.WINDOW_NORMAL)
                 cv.imshow("ROI Image", ROI_image)
-                self.ui.Show_ROI_Info.setText(f"ROI : \n{height=} {width=}")
-                cv.waitKey(0)
-                cv.destroyAllWindows()
+                self.ui.Show_ROI_Info.setText(f"高 : {height} \n寬 : {width=}")
+                if cv.waitKey() == 27:
+                    cv.destroyAllWindows()
             else:
                 self.ui.statusbar.showMessage("影像未選取")
 
     def Mouse_Move(self, event):
-        self.flag = True
+        self.ui.statusbar.showMessage(f"X = {event.x()} Y = {event.y()}")
 
     def OpenFile_chooseFile(self):  # Open File
         self.file_name, file_type = QtWidgets.QFileDialog.getOpenFileName(self, "選擇檔案",
@@ -79,6 +84,22 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ShowImage(self.oriImg)
             self.ui.Set_Threshold_Value_Slider.setEnabled(False)
 
+    def ShowImage(self, img):
+        height, width, channel = img.shape
+        bytesPerline = 3*width
+        self.qimg = QtGui.QImage(img, width, height, bytesPerline, QtGui.QImage.Format_RGB888).rgbSwapped()
+        pixmap = QtGui.QPixmap.fromImage(self.qimg)
+
+        self.ui.scrollArea.resize(self.oriWidth, self.oriHeight)
+        if height <= self.ui.scrollArea.height():
+            self.ui.scrollArea.resize(QtCore.QSize(self.ui.scrollArea.width(), height))
+        if width <= self.ui.scrollArea.width():
+            self.ui.scrollArea.resize(QtCore.QSize(width, self.ui.scrollArea.height()))
+
+        self.ui.ImageLabel.setPixmap(pixmap)
+        self.ui.Image_Info_label.setText(f"圖片資訊 : 高{height} 寬{width}")
+        self.ui.statusbar.showMessage("RGB影像")
+
     def SaveFile(self):
         if self.file_name == "":
             self.ui.statusbar.showMessage("無檔案可儲存")
@@ -87,20 +108,22 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.statusbar.showMessage("存檔成功")
             savepath, file_type = QtWidgets.QFileDialog.getSaveFileName(self, "Image_Save", "Image", "PNG File (*.png);;Jpg Files (*.jpg)")
             if savepath == "":
+                self.ui.statusbar.showMessage("取消存檔")
                 return 0
             else:
                 cv.imwrite(savepath, self.cv2_image)
 
-    def Show_Hist(self):
+    def Show_Hist(self):  # 顯示影像直方圖
         if self.file_name == "":
+            self.ui.statusbar.showMessage("未載入影像 無法顯示直方圖")
             return 0
         else:
             self.ui.Image_Info_label.setText(f"圖片資訊 : 高{self.cv2_image.shape[0]} 寬{self.cv2_image.shape[1]}")
             self.ui.statusbar.showMessage("顯示影像直方圖")
-            #ImageProcess.Show_Histogram(self.cv2_image)
-            figure = Figure_Canvas()
-            figure.Show_Histogram(self.cv2_image)
+            ImageProcess.Show_Histogram(self.cv2_image)
 
+            # figure = Figure_Canvas()
+            # figure.Show_Histogram(self.cv2_image)
 
     def image_Hist(self):
         img_hist = ImageProcess.Histogram(self.oriImg)
@@ -128,28 +151,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.Text_label_Threshold_value.setText(str(self.ui.Set_Threshold_Value_Slider.value()))
         self.image_Threshold()
 
-    def ShowImage(self, img):
-        height, width, channel = img.shape
-        bytesPerline = 3*width
-        self.qimg = QtGui.QImage(img, width, height, bytesPerline, QtGui.QImage.Format_RGB888).rgbSwapped()
-        pixmap = QtGui.QPixmap.fromImage(self.qimg)
-
-        self.ui.scrollArea.resize(self.oriWidth, self.oriHeight)
-        if height <= self.ui.scrollArea.height():
-            self.ui.scrollArea.resize(QtCore.QSize(self.ui.scrollArea.width(), height))
-        if width <= self.ui.scrollArea.width():
-            self.ui.scrollArea.resize(QtCore.QSize(width, self.ui.scrollArea.height()))
-
-        self.ui.ImageLabel.setPixmap(pixmap)
-        self.ui.Image_Info_label.setText(f"圖片資訊 : 高{height} 寬{width}")
-        self.ui.statusbar.showMessage("RGB影像")
-
     def ImageGray(self):
-        #img_gray = cv.imread(self.file_name,cv.IMREAD_GRAYSCALE)
         img_gray = ImageProcess.GrayImg(self.oriImg)
         self.cv2_image = img_gray
         height, width = img_gray.shape[:2]
-        #self.ui.statusbar.showMessage(f"{img_gray.shape}")
         self.qGrayImg = QtGui.QImage(img_gray, width, height, width, QtGui.QImage.Format.Format_Indexed8)
         pixmap = QtGui.QPixmap.fromImage(self.qGrayImg)
         self.ui.ImageLabel.setPixmap(pixmap)
@@ -164,7 +169,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.Image_Info_label.setText(f"圖片資訊 : 高{height} 寬{width}")
         self.ui.statusbar.showMessage("RGB影像")
         self.ui.Set_Threshold_Value_Slider.setEnabled(False)
-
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

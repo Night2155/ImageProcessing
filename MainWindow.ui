@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1125</width>
+    <width>1208</width>
     <height>890</height>
    </rect>
   </property>
@@ -28,7 +28,7 @@
      <rect>
       <x>930</x>
       <y>30</y>
-      <width>81</width>
+      <width>221</width>
       <height>41</height>
      </rect>
     </property>
@@ -40,7 +40,7 @@
      </font>
     </property>
     <property name="text">
-     <string>ROI 大小</string>
+     <string>ROI 大小 (按ESC關閉影像)</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -228,7 +228,7 @@
      <rect>
       <x>930</x>
       <y>80</y>
-      <width>171</width>
+      <width>261</width>
       <height>81</height>
      </rect>
     </property>
@@ -283,7 +283,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1125</width>
+     <width>1208</width>
      <height>21</height>
     </rect>
    </property>
@@ -297,7 +297,7 @@
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="title">
      <string>色彩選項</string>
@@ -306,6 +306,7 @@
     <addaction name="actionRGB"/>
     <addaction name="actionHistogram"/>
     <addaction name="actionTresholding"/>
+    <addaction name="actionHSV"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -353,7 +354,7 @@
   </action>
   <action name="actionHistogram">
    <property name="text">
-    <string>影像直方圖均衡化</string>
+    <string>灰階影像均衡化</string>
    </property>
   </action>
   <action name="actionSave_File">
@@ -369,6 +370,16 @@
   <action name="actionROI">
    <property name="text">
     <string>選取 ROI</string>
+   </property>
+  </action>
+  <action name="action123">
+   <property name="text">
+    <string>HSV</string>
+   </property>
+  </action>
+  <action name="actionHSV">
+   <property name="text">
+    <string>轉換HSV影像</string>
    </property>
   </action>
  </widget>

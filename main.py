@@ -8,7 +8,7 @@ from ImageProcess import *
 
 imgpath = "image\\fox_in_snow.jpg"
 oriimg = cv.imread(imgpath)
-imgCrop = oriimg[20:500, 20:500]
+imgCrop = cv.cvtColor(oriimg, cv.COLOR_BGR2HSV)
 #gray = cv.cvtColor(oriimg, cv.COLOR_BGR2GRAY)
 #cv.imshow("Thrsehold", ImageProcess.Thresholding(oriimg, 127))
 #ImageProcess.Show_Histogram(gray)
