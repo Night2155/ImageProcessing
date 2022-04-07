@@ -182,7 +182,7 @@ class Ui_MainWindow(object):
         self.Text_label_Threshold_value.setText(_translate("MainWindow", " 127"))
         self.menu.setTitle(_translate("MainWindow", "選單"))
         self.menu_2.setTitle(_translate("MainWindow", "色彩選項"))
-        self.menu_3.setTitle(_translate("MainWindow", "設定"))
+        self.menu_3.setTitle(_translate("MainWindow", "功能"))
         self.actionOpen_File.setText(_translate("MainWindow", "Open File"))
         self.actionOpen_File.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.actionClose.setText(_translate("MainWindow", "Close"))

@@ -15,6 +15,10 @@ def Histogram(oriimg):
     img_hist = cv.equalizeHist(oriimg)
     return img_hist
 
+def HSV(oriimg):
+    HSVimg = cv.cvtColor(oriimg, cv.COLOR_BGR2HSV)
+    return HSVimg
+
 def Show_Histogram(oriimg):
     if len(oriimg.shape) == 3:
         color = ('b', 'g', 'r')

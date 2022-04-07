@@ -15,7 +15,6 @@ def my_first_kernel(img):
         [-1, 8, -1],
         [-1, -1, -1]
     ])
-
     kernel_l2 = np.array([
         [-2, -1, 0],
         [-1, 1, 1],
@@ -76,18 +75,18 @@ def add_gussian_noise(img):
     show_and_nameWindow(img_gassian, 'img_gaussian_noise')
     show_and_nameWindow(img_result, 'img_noise_result')
 
-def main():
-    img_ori = cv.imread("image/YuruCamp.jpg")
-    show_and_nameWindow(img_ori, "img_ori")
-    #my_first_kernel(img_ori)
+# def main():
+    # img_ori = cv.imread("image\\")
+    # show_and_nameWindow(img_ori, "img_ori")
+    # my_first_kernel(img_ori)
     #laplacian_filter(img_ori)
     #averaging_filter(img_ori)
     #median_filter(img_ori)
     #gussian_filter(img_ori)
     #sobel_filter(img_ori)
-    add_gussian_noise(img_ori)
+    # add_gussian_noise(img_ori)
+    #
+    # cv.waitKey(0)
 
-    cv.waitKey(0)
-
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

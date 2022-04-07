@@ -310,7 +310,7 @@
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
-     <string>設定</string>
+     <string>功能</string>
     </property>
     <addaction name="actionROI"/>
    </widget>
