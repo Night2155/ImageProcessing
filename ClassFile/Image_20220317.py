@@ -27,7 +27,6 @@ def my_first_kernel(img):
     show_and_nameWindow(img_result, 'result_img')
     show_and_nameWindow(img_result_L1,windowName='result_img_l1')
     show_and_nameWindow(img_result_L2, windowName='result_img_l2')
-
     cv.waitKey(0)
 
 def averaging_filter(img):
@@ -35,11 +34,9 @@ def averaging_filter(img):
     img_averag = cv.blur(img, (5, 5))
     show_and_nameWindow(img_averag, windowName='img_average')
 
-
 def median_filter(img):
     img_median = cv.medianBlur(img, 7)
     show_and_nameWindow(img_median, windowName='img_median')
-
 
 def laplacian_filter(img):
     gray_lap = cv.Laplacian(img, cv.CV_16S, ksize=5)
@@ -52,8 +49,8 @@ def gussian_filter(img):
     show_and_nameWindow(img_gussican_blur, windowName='img_Guassican')
 
 def sobel_filter(img):
-    x = cv.Sobel(img, cv.CV_16S, 1, 0)
-    y = cv.Sobel(img, cv.CV_16S, 0, 1)
+    x = cv.Sobel(img, cv.CV_16U, 1, 0)
+    y = cv.Sobel(img, cv.CV_16U, 0, 1)
     abs_x = cv.convertScaleAbs(x)
     abs_y = cv.convertScaleAbs(y)
     img_sobel = cv.addWeighted(abs_x, 0.5, abs_y, 0.5, 0)

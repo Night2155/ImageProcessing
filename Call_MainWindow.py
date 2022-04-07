@@ -4,6 +4,7 @@ import ImageProcess
 from MainWindow import Ui_MainWindow  # 引入主畫面設計
 import sys
 import cv2 as cv
+import matplotlib.pyplot as plt
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
@@ -12,6 +13,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.cwd = os.getcwd()
         self.file_name = ""
+
         # GIF Label
         movie = QtGui.QMovie("image\\PartyBird.gif")  # 設定 Gif
         self.ui.Gif_Label.setMovie(movie)  # 放入 Label 輸出
@@ -38,33 +40,36 @@ class MainWindow(QtWidgets.QMainWindow):
         # Slider
         self.ui.Set_Threshold_Value_Slider.valueChanged.connect(self.Threshold_Value_Change)  # 調整二值化閥值
 
-    def Label_mouse_Event(self):
+    def Label_mouse_Event(self):  # 滑鼠監聽事件
         self.ui.ImageLabel.mousePressEvent = self.Get_Press_Position
         self.ui.ImageLabel.mouseReleaseEvent = self.Mouse_Realease
         self.ui.ImageLabel.mouseMoveEvent = self.Mouse_Move
+        self.SetROI = True
 
-    def Get_Press_Position(self, event):
+    def Get_Press_Position(self, event):  # 按下左鍵 記錄滑鼠位置
         self.X0, self.Y0 = event.x(), event.y()
         #self.ui.Show_ROI_Info.setText(f'{event.x()=}{event.y()=}')
 
-    def Mouse_Realease(self, event):
-        self.X1, self.Y1 = event.x(), event.y()
-        self.LX, self.TY = min(self.X1, self.X0), min(self.Y1, self.Y0)
-        self.RX, self.DY = max(self.X1, self.X0), max(self.Y1, self.Y0)
-        height, width = (self.DY - self.TY), (self.RX - self.LX)
-        if self.file_name == "":
-            self.ui.statusbar.showMessage("未選取影像無法截出ROI")
+    def Mouse_Realease(self, event):  # 放開滑鼠計算ROI位置、大小
+        if self.SetROI:
+            self.X1, self.Y1 = event.x(), event.y()
+            self.LX, self.TY = min(self.X1, self.X0), min(self.Y1, self.Y0)
+            self.RX, self.DY = max(self.X1, self.X0), max(self.Y1, self.Y0)
+            height, width = (self.DY - self.TY), (self.RX - self.LX)
+            if self.file_name == "":
+                self.ui.statusbar.showMessage("未選取影像無法截出ROI")
 
-        else:
-            if height or width != 0:
-                ROI_image = self.cv2_image[int(self.TY):int(self.DY), int(self.LX):int(self.RX)]
-                cv.namedWindow("ROI Image", cv.WINDOW_NORMAL)
-                cv.imshow("ROI Image", ROI_image)
-                self.ui.Show_ROI_Info.setText(f"高 : {height} \n寬 : {width}")
-                if cv.waitKey() == 27:
-                    cv.destroyAllWindows()
             else:
-                self.ui.statusbar.showMessage("影像未選取")
+                if height or width != 0:
+                    ROI_image = self.cv2_image[int(self.TY):int(self.DY), int(self.LX):int(self.RX)]
+                    ROI_image = cv.cvtColor(ROI_image, cv.COLOR_BGR2RGB)
+                    plt.axis('off')
+                    plt.imshow(ROI_image)
+                    plt.show()
+                    self.ui.Show_ROI_Info.setText(f"高 : {height} \n寬 : {width}")
+                else:
+                    self.ui.statusbar.showMessage("影像未選取")
+        self.SetROI = False
 
     def Mouse_Move(self, event):
         self.ui.statusbar.showMessage(f"X = {event.x()} Y = {event.y()}")
@@ -83,7 +88,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.menu_3.setEnabled(True)
             self.ShowImage(self.oriImg)
 
-    def SaveFile(self):
+    def SaveFile(self):  # 儲存影像
         if self.file_name == "":
             self.ui.statusbar.showMessage("無檔案可儲存")
             return 0
@@ -96,7 +101,7 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 cv.imwrite(savepath, self.cv2_image)
 
-    def ShowImage(self, img):
+    def ShowImage(self, img):  # 顯示影像直方圖
         self.cv2_image = img
         if len(img.shape) == 3:
             height, width, channel = img.shape
@@ -127,7 +132,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.statusbar.showMessage("顯示影像直方圖")
             ImageProcess.Show_Histogram(self.cv2_image)
 
-    def image_Hist(self):
+    def image_Hist(self):  # 灰階影像均衡化
         img_hist = ImageProcess.Histogram(self.oriImg)
         self.ShowImage(img_hist)
         self.ui.Image_Info_label.setText(f"圖片資訊 : 高{self.oriImg.shape[0]} 寬{self.oriImg.shape[1]}")
@@ -145,22 +150,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.Text_label_Threshold_value.setText(str(self.ui.Set_Threshold_Value_Slider.value()))
         self.image_Threshold()
 
-    def ImageGray(self):
+    def ImageGray(self):  # 轉換為灰階影像
         img_gray = ImageProcess.GrayImg(self.oriImg)
         self.ShowImage(img_gray)
         self.ui.Image_Info_label.setText(f"圖片資訊 : 高{self.oriImg.shape[0]} 寬{self.oriImg.shape[1]}")
         self.ui.statusbar.showMessage("灰階影像")
         self.ui.Set_Threshold_Value_Slider.setEnabled(False)
 
-    def ImageRGB(self):
-        self.ui.ImageLabel.setPixmap(QtGui.QPixmap.fromImage(self.qimg))
-        self.cv2_image = self.oriImg
-        height, width, channel = self.cv2_image.shape
-        self.ui.Image_Info_label.setText(f"圖片資訊 : 高{height} 寬{width}")
+    def ImageRGB(self):  # 轉換為原始圖片
+        self.ShowImage(self.oriImg)
+        self.ui.Image_Info_label.setText(f"圖片資訊 : 高{self.oriImg.shape[0]} 寬{self.oriImg.shape[1]}")
         self.ui.statusbar.showMessage("RGB影像")
         self.ui.Set_Threshold_Value_Slider.setEnabled(False)
 
-    def ImageHSV(self):
+    def ImageHSV(self):  # 轉換為HSV通道
         img_HSV = ImageProcess.HSV(self.oriImg)
         self.ShowImage(img_HSV)
         self.ui.Image_Info_label.setText(f"圖片資訊 : 高{self.oriImg.shape[0]} 寬{self.oriImg.shape[1]}")
