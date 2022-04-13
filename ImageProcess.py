@@ -1,6 +1,6 @@
 import cv2 as cv
 import matplotlib.pyplot as plt
-
+import numpy as np
 def GrayImg(oriimg):
     grayimg = cv.cvtColor(oriimg, cv.COLOR_RGB2GRAY)
     return grayimg
@@ -18,6 +18,18 @@ def Histogram(oriimg):
 def HSV(oriimg):
     HSVimg = cv.cvtColor(oriimg, cv.COLOR_BGR2HSV)
     return HSVimg
+
+def Gaussion(oriimg, kernelsize, value):
+    Gaussionimg = cv.GaussianBlur(oriimg, (kernelsize, kernelsize), value)
+    return Gaussionimg
+
+def Median(oriimg, kernelsize, value):
+    MedianImg = cv.medianBlur(oriimg, kernelsize, value)
+    return MedianImg
+
+def Canny(oriimg, Max, Min):
+    CannyImg = cv.Canny(oriimg, threshold1=int(Min), threshold2=int(Max))
+    return CannyImg
 
 def Show_Histogram(oriimg):
     if len(oriimg.shape) == 3:

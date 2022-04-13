@@ -248,7 +248,7 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             self.ui.statusbar.showMessage("請設定最大、最小閥值")
 
-    def ClearNoise(self):  # 中值濾波 雜訊處理
+    def ClearNoise(self):  # 中值濾波
         ClearImg = ImageProcess.Median(self.oriImg, 3, 0)
         self.cv2_image = ClearImg
         self.ShowImage(ClearImg)
@@ -310,6 +310,7 @@ class MainWindow(QtWidgets.QMainWindow):
             MoveArray = np.float32([[1, 0, x], [0, 1, y]])
             MoveImg = cv.warpAffine(self.oriImg, MoveArray, (width, height))
             self.ShowImage(MoveImg)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
