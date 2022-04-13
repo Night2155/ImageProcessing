@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>898</width>
-    <height>834</height>
+    <width>1208</width>
+    <height>890</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -26,8 +26,8 @@
    <widget class="QLabel" name="ROI_Label">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>20</y>
+      <x>930</x>
+      <y>30</y>
       <width>221</width>
       <height>41</height>
      </rect>
@@ -36,11 +36,11 @@
      <font>
       <family>Agency FB</family>
       <pointsize>16</pointsize>
-      <underline>false</underline>
+      <underline>true</underline>
      </font>
     </property>
     <property name="text">
-     <string>ROI 大小</string>
+     <string>ROI 大小 (按ESC關閉影像)</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -48,8 +48,8 @@
      <rect>
       <x>60</x>
       <y>20</y>
-      <width>611</width>
-      <height>561</height>
+      <width>821</width>
+      <height>761</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -63,8 +63,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>607</width>
-          <height>557</height>
+          <width>817</width>
+          <height>757</height>
          </rect>
         </property>
         <widget class="QLabel" name="ImageLabel">
@@ -72,8 +72,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>601</width>
-           <height>551</height>
+           <width>811</width>
+           <height>751</height>
           </rect>
          </property>
          <property name="font">
@@ -109,8 +109,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>260</y>
+      <x>940</x>
+      <y>350</y>
       <width>160</width>
       <height>22</height>
      </rect>
@@ -131,8 +131,8 @@
    <widget class="QLabel" name="Text_label">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>180</y>
+      <x>940</x>
+      <y>270</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -150,8 +150,8 @@
    <widget class="QLabel" name="Text_label_0">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>230</y>
+      <x>940</x>
+      <y>320</y>
       <width>31</width>
       <height>21</height>
      </rect>
@@ -169,8 +169,8 @@
    <widget class="QLabel" name="Text_label_255">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>230</y>
+      <x>1080</x>
+      <y>320</y>
       <width>31</width>
       <height>21</height>
      </rect>
@@ -189,8 +189,8 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>590</y>
-      <width>621</width>
+      <y>800</y>
+      <width>821</width>
       <height>41</height>
      </rect>
     </property>
@@ -207,8 +207,8 @@
    <widget class="QPushButton" name="Show_Hist_Btn">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>320</y>
+      <x>940</x>
+      <y>430</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -226,8 +226,8 @@
    <widget class="QLabel" name="Show_ROI_Info">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>70</y>
+      <x>930</x>
+      <y>80</y>
       <width>261</width>
       <height>81</height>
      </rect>
@@ -251,8 +251,8 @@
    <widget class="QLabel" name="Text_label_Threshold_value">
     <property name="geometry">
      <rect>
-      <x>830</x>
-      <y>180</y>
+      <x>1060</x>
+      <y>270</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -270,312 +270,49 @@
    <widget class="QLabel" name="Gif_Label">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>680</y>
+      <x>930</x>
+      <y>670</y>
       <width>150</width>
       <height>110</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="MaxValue">
+   <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>430</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="maxLength">
-     <number>3</number>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="MinValue">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>490</y>
-      <width>113</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="maxLength">
-     <number>3</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>390</y>
-      <width>91</width>
+      <x>940</x>
+      <y>550</y>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Agency FB</family>
-      <pointsize>14</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>最大閥值</string>
+     <string>向右旋轉</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>450</y>
-      <width>91</width>
+      <x>1060</x>
+      <y>550</y>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Agency FB</family>
-      <pointsize>14</pointsize>
+      <pointsize>16</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>最小閥值</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>640</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>旋轉角度</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="AngelSlider">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>640</y>
-      <width>160</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>-360</number>
-    </property>
-    <property name="maximum">
-     <number>360</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="AngelValue">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>640</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="horizontalMoveSlider">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>680</y>
-      <width>161</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>-400</number>
-    </property>
-    <property name="maximum">
-     <number>400</number>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QSlider" name="VerticalMoveSlider">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>720</y>
-      <width>161</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>-400</number>
-    </property>
-    <property name="maximum">
-     <number>400</number>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>680</y>
-      <width>101</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>水平平移量</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>720</y>
-      <width>101</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>垂直平移量</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="MoveRightValue">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>680</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="MoveUpDownValue">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>720</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>760</y>
-      <width>81</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>偏移倍率</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="ScaleSlider">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>760</y>
-      <width>160</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>0</number>
-    </property>
-    <property name="maximum">
-     <number>10</number>
-    </property>
-    <property name="singleStep">
-     <number>0</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="ScaleValue">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>760</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Agency FB</family>
-      <pointsize>14</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>0.0</string>
+     <string>向左旋轉</string>
     </property>
    </widget>
   </widget>
@@ -584,7 +321,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>898</width>
+     <width>1208</width>
      <height>21</height>
     </rect>
    </property>
@@ -611,11 +348,9 @@
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
-     <string>小工具</string>
+     <string>功能</string>
     </property>
     <addaction name="actionROI"/>
-    <addaction name="actionaffine_transform"/>
-    <addaction name="actionperspective_transform"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -640,7 +375,7 @@
   </widget>
   <action name="actionOpen_File">
    <property name="text">
-    <string>開啟檔案</string>
+    <string>Open File</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
@@ -648,7 +383,7 @@
   </action>
   <action name="actionClose">
    <property name="text">
-    <string>關閉平台</string>
+    <string>Close</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -671,10 +406,7 @@
   </action>
   <action name="actionSave_File">
    <property name="text">
-    <string>儲存檔案</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
+    <string>Save File</string>
    </property>
   </action>
   <action name="actionTresholding">
@@ -710,16 +442,6 @@
   <action name="actionNoise">
    <property name="text">
     <string>雜訊處理</string>
-   </property>
-  </action>
-  <action name="actionaffine_transform">
-   <property name="text">
-    <string>仿射轉換</string>
-   </property>
-  </action>
-  <action name="actionperspective_transform">
-   <property name="text">
-    <string>透視投影轉換</string>
    </property>
   </action>
  </widget>
