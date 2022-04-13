@@ -287,13 +287,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.NoChange = self.cv2_image
             self.counter = 1
         if self.counter > 0:
+            ImgMove = self.NoChange
             x = self.ui.horizontalMoveSlider.value()
             y = self.ui.VerticalMoveSlider.value()
             self.ui.MoveUpDownValue.setText(str(y))
             height, width = self.oriImg.shape[:2]
             # x = x軸偏移量 y = y軸偏移量
             MoveArray = np.float32([[1, 0, x], [0, 1, y]])
-            MoveImg = cv.warpAffine(self.oriImg, MoveArray, (width, height))
+            MoveImg = cv.warpAffine(ImgMove, MoveArray, (width, height))
             self.ShowImage(MoveImg)
 
     # Slider 左右平移影像
@@ -302,13 +303,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.NoChange = self.cv2_image
             self.counter = 1
         if self.counter > 0:
+            ImgMove = self.NoChange
             x = self.ui.horizontalMoveSlider.value()
             y = self.ui.VerticalMoveSlider.value()
             self.ui.MoveRightValue.setText(str(x))
             height, width = self.oriImg.shape[:2]
             # x = x軸偏移量 y = y軸偏移量
             MoveArray = np.float32([[1, 0, x], [0, 1, y]])
-            MoveImg = cv.warpAffine(self.oriImg, MoveArray, (width, height))
+            MoveImg = cv.warpAffine(ImgMove, MoveArray, (width, height))
             self.ShowImage(MoveImg)
 
 
