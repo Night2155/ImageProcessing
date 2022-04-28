@@ -1,6 +1,7 @@
 # ImageProcessing V2.0
 影像處理平台開發 V2.0
-[image]()
+
+   ![partybird](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V2/image/PartyBird.gif)
 + 程式語言 Python
 + 套件 PyQt5、OpenCV
 + 開發工具 PyCharm、QtDesigner
