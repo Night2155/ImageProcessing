@@ -13,6 +13,11 @@
   + 灰階影像
   + 灰階影像均衡化
   + 二值化影像
-  + 
+  + HSV影像
+3. 小工具
+  + 選取ROI
+  + 仿射轉換 [參考連結](https://blog.csdn.net/liuweiyuxiang/article/details/82799999)
+  + 透視投影轉換 [參考連結](https://blog.csdn.net/guduruyu/article/details/72518340)
+4. 影像處理
 # 程式功能說明
 
