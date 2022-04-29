@@ -53,9 +53,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # Slider 旋轉影像
         self.ui.AngelSlider.valueChanged.connect(self.AngelValueChange)
         # Slider 左右平移影像
-        self.ui.VerticalMoveSlider.valueChanged.connect(self.verticalChange)
+        self.ui.VerticalMoveSlider.valueChanged.connect(self.Slider_Move_Image)
         # Slider 上下平移影像
-        self.ui.horizontalMoveSlider.valueChanged.connect(self.horizontalChange)
+        self.ui.horizontalMoveSlider.valueChanged.connect(self.Slider_Move_Image)
         # Slider 調整縮放倍率
         self.ui.ScaleSlider.valueChanged.connect(self.ScaleValueChange)
 
@@ -281,8 +281,8 @@ class MainWindow(QtWidgets.QMainWindow):
             TurnImg = cv.warpAffine(Turn_Img, AngelArray, (width, height))
             self.ShowImage(TurnImg)
 
-    # Slider 上下平移影像
-    def verticalChange(self):
+    # 上下左右平移影像
+    def Slider_Move_Image(self):
         if self.counter == 0:
             self.NoChange = self.cv2_image
             self.counter = 1
@@ -290,29 +290,15 @@ class MainWindow(QtWidgets.QMainWindow):
             ImgMove = self.NoChange
             x = self.ui.horizontalMoveSlider.value()
             y = self.ui.VerticalMoveSlider.value()
-            self.ui.MoveUpDownValue.setText(str(y))
+            if self.sender() == self.ui.horizontalMoveSlider:
+                self.ui.MoveRightValue.setText(str(x))
+            elif self.sender() == self.ui.VerticalMoveSlider:
+                self.ui.MoveUpDownValue.setText(str(y))
             height, width = self.oriImg.shape[:2]
             # x = x軸偏移量 y = y軸偏移量
             MoveArray = np.float32([[1, 0, x], [0, 1, y]])
             MoveImg = cv.warpAffine(ImgMove, MoveArray, (width, height))
             self.ShowImage(MoveImg)
-
-    # Slider 左右平移影像
-    def horizontalChange(self):
-        if self.counter == 0:
-            self.NoChange = self.cv2_image
-            self.counter = 1
-        if self.counter > 0:
-            ImgMove = self.NoChange
-            x = self.ui.horizontalMoveSlider.value()
-            y = self.ui.VerticalMoveSlider.value()
-            self.ui.MoveRightValue.setText(str(x))
-            height, width = self.oriImg.shape[:2]
-            # x = x軸偏移量 y = y軸偏移量
-            MoveArray = np.float32([[1, 0, x], [0, 1, y]])
-            MoveImg = cv.warpAffine(ImgMove, MoveArray, (width, height))
-            self.ShowImage(MoveImg)
-
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
