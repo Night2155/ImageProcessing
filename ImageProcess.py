@@ -68,3 +68,19 @@ def Show_Perspective_Image(image, points):
     plt.axis('off')
     plt.imshow(PerspectiveImg)
     plt.show()
+
+def Change_Angel_Image(oriimage, angel, turn_img):
+    height, width = oriimage.shape[:2]
+    center = (width / 2, height / 2)
+    scale = 1.0
+    # center = 影像中心點 angel = 旋轉角度 scale = 縮放比例
+    AngelArray = cv.getRotationMatrix2D(center, int(angel), scale)
+    turnimg = cv.warpAffine(turn_img, AngelArray, (width, height))
+    return turnimg
+
+def Move_Image(oriimg, ImgMove, x, y):
+    height, width = oriimg.shape[:2]
+    # x = x軸偏移量 y = y軸偏移量
+    MoveArray = np.float32([[1, 0, x], [0, 1, y]])
+    MoveImg = cv.warpAffine(ImgMove, MoveArray, (width, height))
+    return MoveImg

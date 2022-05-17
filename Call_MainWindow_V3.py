@@ -269,15 +269,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.NoChange = self.cv2_image
             self.counter = 1
         if self.counter > 0:
-            Turn_Img = self.NoChange
             angel = self.ui.AngelSlider.value()
             self.ui.AngelValue.setText(str(angel))
-            height, width = self.oriImg.shape[:2]
-            center = (width / 2, height / 2)
-            scale = 1.0
-            # center = 影像中心點 angel = 旋轉角度 scale = 縮放比例
-            AngelArray = cv.getRotationMatrix2D(center, int(angel), scale)
-            TurnImg = cv.warpAffine(Turn_Img, AngelArray, (width, height))
+            TurnImg = ImageProcess.Change_Angel_Image(self.oriImg, angel, self.NoChange)
             self.Show_On_ImageLabel(TurnImg)
 
     # 上下左右平移影像
@@ -286,17 +280,13 @@ class MainWindow(QtWidgets.QMainWindow):
             self.NoChange = self.cv2_image
             self.counter = 1
         if self.counter > 0:
-            ImgMove = self.NoChange
             x = self.ui.horizontalMoveSlider.value()
             y = self.ui.VerticalMoveSlider.value()
             if self.sender() == self.ui.horizontalMoveSlider:
                 self.ui.MoveRightValue.setText(str(x))
             elif self.sender() == self.ui.VerticalMoveSlider:
                 self.ui.MoveUpDownValue.setText(str(y))
-            height, width = self.oriImg.shape[:2]
-            # x = x軸偏移量 y = y軸偏移量
-            MoveArray = np.float32([[1, 0, x], [0, 1, y]])
-            MoveImg = cv.warpAffine(ImgMove, MoveArray, (width, height))
+            MoveImg = ImageProcess.Move_Image(self.oriImg, self.NoChange, x, y)
             self.Show_On_ImageLabel(MoveImg)
 
     def MaxThresoldChange(self):
