@@ -34,4 +34,5 @@
       + 影像處裡函式
    +  [MainWindow.py](https://github.com/Night2155/ImageProcessing/blob/master/MainWindow.py)
       + 主程式介面設計
-       
+
+#程式優化與BUG說明
