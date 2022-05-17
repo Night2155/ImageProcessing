@@ -42,8 +42,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # Menu 4 影像處理
         self.ui.menu_4.setEnabled(False)
         valid = QtGui.QIntValidator(0, 255, self)
-        self.ui.MaxValue.setValidator(valid)
-        self.ui.MinValue.setValidator(valid)
         self.ui.actionGuassion.triggered.connect(self.GaussionBlur)  # 模糊影像
         self.ui.actionCanny.triggered.connect(self.Canny)  # 邊緣擷取
         self.ui.actionNoise.triggered.connect(self.ClearNoise)  # 雜訊處理
@@ -75,11 +73,13 @@ class MainWindow(QtWidgets.QMainWindow):
             self.qGrayimg = QtGui.QImage(img, width, height, bytesPerline, QtGui.QImage.Format.Format_Indexed8)
             pixmap = QtGui.QPixmap.fromImage(self.qGrayimg)
 
-        self.ui.scrollArea.resize(self.oriWidth, self.oriHeight)
+        self.ui.scrollArea.setMaximumSize(width, height)
         if height <= self.ui.scrollArea.height():
-            self.ui.scrollArea.resize(QtCore.QSize(self.ui.scrollArea.width(), height))
+            self.ui.scrollArea.setMaximumSize(QtCore.QSize(self.ui.scrollArea.width(), height))
+            #self.ui.scrollArea.resize(QtCore.QSize(self.ui.scrollArea.width(), height))
         if width <= self.ui.scrollArea.width():
-            self.ui.scrollArea.resize(QtCore.QSize(width, self.ui.scrollArea.height()))
+            self.ui.scrollArea.setMaximumSize(QtCore.QSize(width, self.ui.scrollArea.height()))
+            #self.ui.scrollArea.resize(QtCore.QSize(width, self.ui.scrollArea.height()))
         self.ui.ImageLabel.setPixmap(pixmap)
 
     # Menu1 選單函式
@@ -174,14 +174,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.points = []
 
     def Get_Press_Position(self, event):  # 按下左鍵 記錄滑鼠位置
-        self.X0, self.Y0 = event.x(), event.y()
+        self.X0, self.Y0 = event.localPos().x(), event.localPos().y()
         if self.setPerapective :
             if len(self.points) < 4:
-                self.points.append([event.x(), event.y()])
+                self.points.append([event.localPos().x(), event.localPos().y()])
 
     def Mouse_Realease_ROI(self, event):  # 放開滑鼠計算ROI位置、大小
         if self.SetROI:
-            self.X1, self.Y1 = event.x(), event.y()
+            self.X1, self.Y1 = event.localPos().x(), event.localPos().y()
             self.LX, self.TY = min(self.X1, self.X0), min(self.Y1, self.Y0)
             self.RX, self.DY = max(self.X1, self.X0), max(self.Y1, self.Y0)
             height, width = (self.DY - self.TY), (self.RX - self.LX)
