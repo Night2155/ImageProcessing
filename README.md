@@ -7,7 +7,8 @@
 + 程式參考
    + [12th 鐵人賽 – 【錢不夠買ps的我，只好用OpenCV來修圖了!】](https://www.wongwonggoods.com/category/portfolio/12th_ironman/)
 
-基本功能 : 
+
+基本功能 :
 1. 選單
     + 載入影像 
     + 儲存影像
@@ -26,6 +27,8 @@
     + 影像模糊化
     + 影像邊緣擷取
     + 影像雜訊處理
+
+
 # 程式檔案說明
    +  [Call_MainWindow.py](https://github.com/Night2155/ImageProcessing/blob/master/Call_MainWindow.py)
       + 程式啟動
