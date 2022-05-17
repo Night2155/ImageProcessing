@@ -46,7 +46,7 @@
    +  [Call_MainWindow.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/Call_MainWindow_V3.py)
       + 程式啟動
       + 介面物件呼叫函式
-   +  [ImageProcessing.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/ImageProcessing.py)
+   +  [ImageProcess.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/ImageProcess.py)
       + 影像處裡函式
    +  [MainWindow.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/MainWindow_V3.py)
       + 主程式介面設計
