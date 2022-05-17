@@ -1,6 +1,7 @@
 import cv2 as cv
 import matplotlib.pyplot as plt
 import numpy as np
+
 def GrayImg(oriimg):
     grayimg = cv.cvtColor(oriimg, cv.COLOR_RGB2GRAY)
     return grayimg
@@ -50,3 +51,20 @@ def Show_Histogram(oriimg):
         plt.title("Gray Histogram")
         plt.show()
 
+def Show_ROI_Image(img, TY, DY, LX, RX):
+    ROI_image = img[int(TY):int(DY), int(LX):int(RX)]
+    ROI_image = cv.cvtColor(ROI_image, cv.COLOR_BGR2RGB)
+    plt.axis('off')
+    plt.imshow(ROI_image)
+    plt.show()
+
+def Show_Perspective_Image(image, points):
+    width, height = image.shape[:2]
+    pts1 = np.float32(points)
+    pts2 = np.float32([[0, 0], [width, 0], [0, height], [width, height]])
+    m = cv.getPerspectiveTransform(pts1, pts2)
+    PerspectiveImg = cv.warpPerspective(image, m, (width, height), cv.INTER_LINEAR)
+    PerspectiveImg = cv.cvtColor(PerspectiveImg, cv.COLOR_BGR2RGB)
+    plt.axis('off')
+    plt.imshow(PerspectiveImg)
+    plt.show()

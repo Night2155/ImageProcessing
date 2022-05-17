@@ -10,6 +10,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.MainWindow_Ui_Setup()
+        self.MainWindow_Function_Binding()
+
+    def MainWindow_Ui_Setup(self):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.cwd = os.getcwd()
@@ -22,31 +26,27 @@ class MainWindow(QtWidgets.QMainWindow):
         movie = QtGui.QMovie("image\\PartyBird.gif")  # 設定 Gif
         self.ui.Gif_Label.setMovie(movie)  # 放入 Label 輸出
         movie.start()  # GIF 播放
+
+    def MainWindow_Function_Binding(self):
         # Menu 1 選單
         self.ui.actionClose.triggered.connect(app.exit)  # 關閉平台
         self.ui.actionOpen_File.triggered.connect(self.OpenFile_chooseFile)  # 開啟影像
         self.ui.actionSave_File.triggered.connect(self.SaveFile)  # 儲存影像
         # Menu 2 色彩選項
-        self.ui.menu_2.setEnabled(False)
         self.ui.actionGray.triggered.connect(self.ImageGray)  # 轉換灰階影像
         self.ui.actionRGB.triggered.connect(self.ImageRGB)  # 轉換原始圖像
         self.ui.actionTresholding.triggered.connect(self.image_Threshold)  # 影像二值化
         self.ui.actionHistogram.triggered.connect(self.image_Hist)  # 灰階均衡化
         self.ui.actionHSV.triggered.connect(self.ImageHSV)  # 轉換 HSV 影像
         # Menu 3 小工具
-        self.ui.menu_3.setEnabled(False)
         self.ui.actionROI.triggered.connect(self.Label_mouse_Event_ROI)  # 選取ROI
         self.ui.actionaffine_transform.triggered.connect(self.Affine_Transform)  # 仿射轉換
         self.ui.actionperspective_transform.triggered.connect(self.Label_mouse_Event_perspective)  # 透視轉換
         self.ui.actionShow_Hist.triggered.connect(self.Show_Hist)
         # Menu 4 影像處理
-        self.ui.menu_4.setEnabled(False)
-        valid = QtGui.QIntValidator(0, 255, self)
         self.ui.actionGuassion.triggered.connect(self.GaussionBlur)  # 模糊影像
         self.ui.actionCanny.triggered.connect(self.Canny)  # 邊緣擷取
         self.ui.actionNoise.triggered.connect(self.ClearNoise)  # 雜訊處理
-        # Button 顯示影像直方圖
-        #self.ui.Show_Hist_Btn.clicked.connect(self.Show_Hist)
         # Slider 調整二值化閥值
         self.ui.Set_Threshold_Value_Slider.valueChanged.connect(self.Threshold_Value_Change)
         # Slider 旋轉影像
@@ -57,16 +57,21 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.horizontalMoveSlider.valueChanged.connect(self.Slider_Move_Image)
         # Slider 調整縮放倍率
         self.ui.ScaleSlider.valueChanged.connect(self.ScaleValueChange)
+        self.ui.MinThresholdSlider.valueChanged.connect(self.MinThresoldChange)
+        self.ui.MaxThresholdSlider.valueChanged.connect(self.MaxThresoldChange)
+
+    def Statusbar_Show_Message(self, message):
+        self.ui.statusbar.showMessage(message)
 
     # 顯示圖像在ImageLabel
-    def ShowImage(self, img):
+    def Show_On_ImageLabel(self, img):
         self.cv2_image = img
         if len(img.shape) == 3:
             height, width, channel = img.shape
             bytesPerline = 3 * width
             self.qimg = QtGui.QImage(img, width, height, bytesPerline, QtGui.QImage.Format_RGB888).rgbSwapped()
             pixmap = QtGui.QPixmap.fromImage(self.qimg)
-            self.ui.statusbar.showMessage("RGB影像")
+            self.Statusbar_Show_Message("RGB影像")
         elif len(img.shape) == 2:
             height, width = img.shape
             bytesPerline = width
@@ -76,74 +81,81 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.scrollArea.setMaximumSize(width, height)
         if height <= self.ui.scrollArea.height():
             self.ui.scrollArea.setMaximumSize(QtCore.QSize(self.ui.scrollArea.width(), height))
-            #self.ui.scrollArea.resize(QtCore.QSize(self.ui.scrollArea.width(), height))
         if width <= self.ui.scrollArea.width():
             self.ui.scrollArea.setMaximumSize(QtCore.QSize(width, self.ui.scrollArea.height()))
-            #self.ui.scrollArea.resize(QtCore.QSize(width, self.ui.scrollArea.height()))
         self.ui.ImageLabel.setPixmap(pixmap)
 
     # Menu1 選單函式
     def OpenFile_chooseFile(self):  # Open File
         self.file_name, file_type = QtWidgets.QFileDialog.getOpenFileName(self, "選擇檔案",
-                                                                          self.cwd, "ALL Files (*);; PNG Files (*.png);; Jpg Files (*.jpg) ")
+                                                                          os.getcwd(), "ALL Files (*);; PNG Files (*.png);; Jpg Files (*.jpg) ")
         if self.file_name == "":
-            self.ui.statusbar.showMessage("取消開檔")
+            self.Statusbar_Show_Message("取消開檔")
             return 0
         else:
-            self.ui.statusbar.showMessage("開檔成功")
-            file_size = os.path.getsize(self.file_name)
-            filename = os.path.basename(self.file_name)
+            self.Statusbar_Show_Message("開檔成功")
             self.oriImg = cv.imread(filename=self.file_name)  # 最初所載入的影像
             self.cv2_image = self.oriImg.copy()  # 目前Label所顯示的影像
-            width, height = self.oriImg.shape[:2]
-            self.ui.menu_2.setEnabled(True)
-            self.ui.menu_3.setEnabled(True)
-            self.ui.menu_4.setEnabled(True)
-            self.ui.ScaleSlider.setEnabled(True)
-            self.ui.AngelSlider.setEnabled(True)
-            self.ui.VerticalMoveSlider.setEnabled(True)
-            self.ui.horizontalMoveSlider.setEnabled(True)
-            self.ShowImage(self.oriImg)
-            self.ui.Image_Info_label.setText(f"檔案名稱 : {filename} 檔案大小 : {round(file_size / 1024, 2)}KB 尺寸 : {height}X{width}")
+            self.Ui_Enabled_Setup()
+            self.Show_Image_Info_On_Label()
+            self.Show_On_ImageLabel(self.oriImg)
+
+    def Show_Image_Info_On_Label(self):
+        file_size = os.path.getsize(self.file_name)
+        filename = os.path.basename(self.file_name)
+        width, height = self.oriImg.shape[:2]
+        self.ui.Image_Info_label.setText(f"檔案名稱 : {filename} 檔案大小 : {round(file_size / 1024, 2)}KB 尺寸 : {height}X{width}")
+
+    def Ui_Enabled_Setup(self):
+        self.ui.menu_2.setEnabled(True)
+        self.ui.menu_3.setEnabled(True)
+        self.ui.menu_4.setEnabled(True)
+        self.ui.actionSave_File.setEnabled(True)
+        self.ui.ScaleSlider.setEnabled(True)  # 偏移倍率
+        self.ui.AngelSlider.setEnabled(True)  # 角度
+        self.ui.VerticalMoveSlider.setEnabled(True)  # 垂直
+        self.ui.horizontalMoveSlider.setEnabled(True)  # 水平
+        self.ui.MaxThresholdSlider.setEnabled(True)
+        self.ui.MinThresholdSlider.setEnabled(True)
 
     def SaveFile(self):  # 儲存影像
         if self.file_name == "":
-            self.ui.statusbar.showMessage("無檔案可儲存")
+            self.Statusbar_Show_Message("無檔案可儲存")
             return 0
         else:
             savepath, file_type = QtWidgets.QFileDialog.getSaveFileName(self, "Image_Save", "Image", "PNG File (*.png);;Jpg Files (*.jpg)")
             if savepath == "":
-                self.ui.statusbar.showMessage("取消存檔")
+                self.Statusbar_Show_Message("取消存檔")
                 return 0
             else:
                 cv.imwrite(savepath, self.cv2_image)
-                self.ui.statusbar.showMessage("存檔成功")
+                self.Statusbar_Show_Message("存檔成功")
 
     # Menu2 色彩選項函式
     def ImageGray(self):  # 轉換為灰階影像
         img_gray = ImageProcess.GrayImg(self.oriImg)
-        self.ShowImage(img_gray)
-        self.ui.statusbar.showMessage("灰階影像")
+        self.Show_On_ImageLabel(img_gray)
+        self.Statusbar_Show_Message("灰階影像")
         self.ui.Set_Threshold_Value_Slider.setEnabled(False)
         self.counter = 0
 
     def ImageRGB(self):  # 轉換為原始圖片
-        self.ShowImage(self.oriImg)
+        self.Show_On_ImageLabel(self.oriImg)
         self.ui.statusbar.showMessage("RGB影像")
         self.ui.Set_Threshold_Value_Slider.setEnabled(False)
         self.counter = 0
 
     def image_Hist(self):  # 灰階影像均衡化
         img_hist = ImageProcess.Histogram(self.oriImg)
-        self.ShowImage(img_hist)
-        self.ui.statusbar.showMessage("影像均衡化")
+        self.Show_On_ImageLabel(img_hist)
+        self.Statusbar_Show_Message("影像均衡化")
         self.ui.Set_Threshold_Value_Slider.setEnabled(False)
         self.counter = 0
 
     def image_Threshold(self):  # 顯示二值化後圖像
         threshold_image = ImageProcess.Thresholding(self.oriImg, self.ui.Set_Threshold_Value_Slider.value())
-        self.ShowImage(threshold_image)
-        self.ui.statusbar.showMessage("二值化影像")
+        self.Show_On_ImageLabel(threshold_image)
+        self.Statusbar_Show_Message("二值化影像")
         self.ui.Set_Threshold_Value_Slider.setEnabled(True)
         self.counter = 0
 
@@ -153,8 +165,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def ImageHSV(self):  # 轉換為HSV通道
         img_HSV = ImageProcess.HSV(self.oriImg)
-        self.ShowImage(img_HSV)
-        self.ui.statusbar.showMessage("HSV影像")
+        self.Show_On_ImageLabel(img_HSV)
+        self.Statusbar_Show_Message("HSV影像")
         self.counter = 0
 
     # Menu3 小工具函式
@@ -162,60 +174,49 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.ImageLabel.mousePressEvent = self.Get_Press_Position
         self.ui.ImageLabel.mouseReleaseEvent = self.Mouse_Realease_ROI
         self.ui.ImageLabel.mouseMoveEvent = self.Mouse_Move
-        self.SetROI = True
+        self.ui.ImageLabel.setCursor(QtGui.QCursor(QtCore.Qt.CrossCursor))
         self.setPerapective = False
 
     def Label_mouse_Event_perspective(self):  # Perspective滑鼠監聽事件
         self.ui.ImageLabel.mousePressEvent = self.Get_Press_Position
         self.ui.ImageLabel.mouseMoveEvent = self.Mouse_Move
         self.ui.ImageLabel.mouseReleaseEvent = self.Mouse_Release_Perspective
-        self.ui.AngelSlider.setEnabled(False)
+        self.ui.ImageLabel.setCursor(QtGui.QCursor(QtCore.Qt.CrossCursor))
         self.setPerapective = True
         self.points = []
 
     def Get_Press_Position(self, event):  # 按下左鍵 記錄滑鼠位置
-        self.X0, self.Y0 = event.localPos().x(), event.localPos().y()
+        self.X0, self.Y0 = event.x(), event.y()
         if self.setPerapective :
             if len(self.points) < 4:
-                self.points.append([event.localPos().x(), event.localPos().y()])
+                self.points.append([event.x(), event.y()])
 
     def Mouse_Realease_ROI(self, event):  # 放開滑鼠計算ROI位置、大小
-        if self.SetROI:
-            self.X1, self.Y1 = event.localPos().x(), event.localPos().y()
-            self.LX, self.TY = min(self.X1, self.X0), min(self.Y1, self.Y0)
-            self.RX, self.DY = max(self.X1, self.X0), max(self.Y1, self.Y0)
-            height, width = (self.DY - self.TY), (self.RX - self.LX)
-            if self.file_name == "":
-                self.ui.statusbar.showMessage("未選取影像無法截出ROI")
+        X1, Y1 = event.x(), event.y()
+        if (self.X0 != X1) or (self.Y0 != Y1):  # 防止使用者點擊同一位置
+            LX, TY = min(X1, self.X0), min(Y1, self.Y0)
+            RX, DY = max(X1, self.X0), max(Y1, self.Y0)
+            height, width = (DY - TY), (RX - LX)
+            if height or width != 0:
+                ImageProcess.Show_ROI_Image(self.cv2_image, TY, DY, LX, RX)
+                self.ui.ROI_Label.setText(f"ROI 大小 高 : {height} 寬 : {width}")
+                self.Statusbar_Show_Message(f"X0 = {LX} Y0 = {TY} X1 = {RX} Y2 = {DY}")
+                self.ui.ImageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
             else:
-                if height or width != 0:
-                    ROI_image = self.cv2_image[int(self.TY):int(self.DY), int(self.LX):int(self.RX)]
-                    ROI_image = cv.cvtColor(ROI_image, cv.COLOR_BGR2RGB)
-                    plt.axis('off')
-                    plt.imshow(ROI_image)
-                    plt.show()
-                    self.ui.ROI_Label.setText(f"ROI 大小 高 : {height} 寬 : {width}")
-                    self.ui.statusbar.showMessage(f"X0 = {self.LX} Y0 = {self.TY} X1 = {self.RX} Y2 = {self.DY}")
-                else:
-                    self.ui.statusbar.showMessage("影像未選取")
-        self.SetROI = False
+                self.Statusbar_Show_Message("影像未選取")
+                self.ui.ImageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+                return 0
 
     def Mouse_Release_Perspective(self, event):  # 放開滑鼠計算透視函式陣列
         if len(self.points) == 4:
-            self.ui.statusbar.showMessage(f"{self.points}")
-            width, height = self.cv2_image.shape[:2]
-            pts1 = np.float32(self.points)
-            pts2 = np.float32([[0, 0], [width, 0], [0, height], [width, height]])
-            m = cv.getPerspectiveTransform(pts1, pts2)
-            PerspectiveImg = cv.warpPerspective(self.cv2_image, m, (width, height), cv.INTER_LINEAR)
-            self.ShowImage(PerspectiveImg)
-            self.cv2_image = PerspectiveImg
+            self.Statusbar_Show_Message(f"{self.points}")
+            ImageProcess.Show_Perspective_Image(self.cv2_image, self.points)
             self.points = []
             self.setPerapective = False
-            self.ui.AngelSlider.setEnabled(True)
+            self.ui.ImageLabel.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
 
     def Mouse_Move(self, event):
-        self.ui.statusbar.showMessage(f"X = {event.x()} Y = {event.y()}")
+        self.Statusbar_Show_Message(f"X = {event.x()} Y = {event.y()}")
 
     def Affine_Transform(self):  # 仿射轉換
         height, width = self.oriImg.shape[:2]
@@ -225,49 +226,42 @@ class MainWindow(QtWidgets.QMainWindow):
         if x and y != 0:
             m = np.float32([[1, scale, x], [scale, 1, y]])
             affineImg = cv.warpAffine(self.oriImg, m, (width, height))
-            self.ShowImage(affineImg)
+            self.Show_On_ImageLabel(affineImg)
             self.cv2_image = affineImg
         else:
             return 0
 
-    def ScaleValueChange(self):
-        self.ui.ScaleValue.setText(str(self.ui.ScaleSlider.value()/10))
+    def Show_Hist(self):  # 顯示影像直方圖
+        if self.file_name == "":
+            self.Statusbar_Show_Message("未載入影像 無法顯示直方圖")
+            return 0
+        else:
+            self.ui.Image_Info_label.setText(f"圖片資訊 : 高{self.cv2_image.shape[0]} 寬{self.cv2_image.shape[1]}")
+            self.Statusbar_Show_Message("顯示影像直方圖")
+            ImageProcess.Show_Histogram(self.cv2_image)
 
     # Menu4 影像處理
     def GaussionBlur(self):  # 高斯濾波 模糊化
         GaussionImg = ImageProcess.Gaussion(self.oriImg, 21, 50)
         self.cv2_image = GaussionImg
-        self.ShowImage(GaussionImg)
-        self.ui.statusbar.showMessage("影像模糊化")
+        self.Show_On_ImageLabel(GaussionImg)
+        self.Statusbar_Show_Message("影像模糊化")
 
     def Canny(self):  # Canny 邊緣擷取
-        self.Max = self.ui.MaxValue.text()
-        self.Min = self.ui.MinValue.text()
+        self.Max = self.ui.MaxThresholdValue.text()
+        self.Min = self.ui.MinThresholdValue.text()
         GrayImg = ImageProcess.GrayImg(self.oriImg)
         ClearImg = ImageProcess.Gaussion(GrayImg, 3, 0)
-        if self.Max and self.Min != "":
-            CannyImg = ImageProcess.Canny(ClearImg, Max=int(self.Max), Min=int(self.Min))
-            self.cv2_image = CannyImg
-            self.ShowImage(CannyImg)
-            self.ui.statusbar.showMessage("影像邊緣擷取")
-        else:
-            self.ui.statusbar.showMessage("請設定最大、最小閥值")
+        CannyImg = ImageProcess.Canny(ClearImg, Max=int(self.Max), Min=int(self.Min))
+        self.cv2_image = CannyImg
+        self.Show_On_ImageLabel(CannyImg)
+        self.Statusbar_Show_Message("影像邊緣擷取")
 
     def ClearNoise(self):  # 中值濾波
         ClearImg = ImageProcess.Median(self.oriImg, 3, 0)
         self.cv2_image = ClearImg
-        self.ShowImage(ClearImg)
-        self.ui.statusbar.showMessage("雜訊處理")
-
-    # Button 顯示直方圖
-    def Show_Hist(self):  # 顯示影像直方圖
-        if self.file_name == "":
-            self.ui.statusbar.showMessage("未載入影像 無法顯示直方圖")
-            return 0
-        else:
-            self.ui.Image_Info_label.setText(f"圖片資訊 : 高{self.cv2_image.shape[0]} 寬{self.cv2_image.shape[1]}")
-            self.ui.statusbar.showMessage("顯示影像直方圖")
-            ImageProcess.Show_Histogram(self.cv2_image)
+        self.Show_On_ImageLabel(ClearImg)
+        self.Statusbar_Show_Message("雜訊處理")
 
     # Slider 旋轉影像
     def AngelValueChange(self):
@@ -284,7 +278,7 @@ class MainWindow(QtWidgets.QMainWindow):
             # center = 影像中心點 angel = 旋轉角度 scale = 縮放比例
             AngelArray = cv.getRotationMatrix2D(center, int(angel), scale)
             TurnImg = cv.warpAffine(Turn_Img, AngelArray, (width, height))
-            self.ShowImage(TurnImg)
+            self.Show_On_ImageLabel(TurnImg)
 
     # 上下左右平移影像
     def Slider_Move_Image(self):
@@ -303,7 +297,16 @@ class MainWindow(QtWidgets.QMainWindow):
             # x = x軸偏移量 y = y軸偏移量
             MoveArray = np.float32([[1, 0, x], [0, 1, y]])
             MoveImg = cv.warpAffine(ImgMove, MoveArray, (width, height))
-            self.ShowImage(MoveImg)
+            self.Show_On_ImageLabel(MoveImg)
+
+    def MaxThresoldChange(self):
+        self.ui.MaxThresholdValue.setText(str(self.ui.MaxThresholdSlider.value()))
+
+    def MinThresoldChange(self):
+        self.ui.MinThresholdValue.setText(str(self.ui.MinThresholdSlider.value()))
+
+    def ScaleValueChange(self):
+        self.ui.ScaleValue.setText(str(self.ui.ScaleSlider.value()/10))
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

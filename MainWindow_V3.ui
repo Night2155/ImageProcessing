@@ -412,6 +412,9 @@
               </item>
               <item>
                <widget class="QSlider" name="MaxThresholdSlider">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>250</width>
@@ -419,6 +422,9 @@
                  </size>
                 </property>
                 <property name="maximum">
+                 <number>400</number>
+                </property>
+                <property name="value">
                  <number>400</number>
                 </property>
                 <property name="orientation">
@@ -435,7 +441,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>0</string>
+                 <string>400</string>
                 </property>
                </widget>
               </item>
@@ -458,6 +464,9 @@
               </item>
               <item>
                <widget class="QSlider" name="MinThresholdSlider">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="maximumSize">
                  <size>
                   <width>250</width>
@@ -544,7 +553,7 @@
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="enabled">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="title">
      <string>色彩選項</string>
@@ -556,6 +565,9 @@
     <addaction name="actionHSV"/>
    </widget>
    <widget class="QMenu" name="menu_3">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>小工具</string>
     </property>
@@ -565,6 +577,9 @@
     <addaction name="actionShow_Hist"/>
    </widget>
    <widget class="QMenu" name="menu_4">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>影像處理</string>
     </property>
@@ -602,6 +617,9 @@
    </property>
   </action>
   <action name="actionGray">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>影像灰階</string>
    </property>
@@ -617,6 +635,9 @@
    </property>
   </action>
   <action name="actionSave_File">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>儲存檔案</string>
    </property>
