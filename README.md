@@ -1,11 +1,23 @@
 # ImageProcessing 影像處理平台開發 V2.0
 
    ![partybird](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V2/image/PartyBird.gif)
-+ 程式語言 Python
-+ 套件 PyQt5、OpenCV
-+ 開發工具 PyCharm、QtDesigner
-+ 程式參考
-   + [12th 鐵人賽 – 【錢不夠買ps的我，只好用OpenCV來修圖了!】](https://www.wongwonggoods.com/category/portfolio/12th_ironman/)
+   
+程式語言
+```
+Python3.8
+```
+套件 
+```
+PyQt5
+OpenCV
+```
+開發工具
+```
+PyCharm
+QtDesigner
+```
+程式參考
+  + [12th 鐵人賽 – 【錢不夠買ps的我，只好用OpenCV來修圖了!】](https://www.wongwonggoods.com/category/portfolio/12th_ironman/)
 
 
 基本功能 :
@@ -30,11 +42,16 @@
 
 
 # 程式檔案說明
-   +  [Call_MainWindow.py](https://github.com/Night2155/ImageProcessing/blob/master/Call_MainWindow.py)
-      + 程式啟動
-      + 介面物件呼叫函式
-   +  [ImageProcessing.py](https://github.com/Night2155/ImageProcessing/blob/master/ImageProcess.py)
-      + 影像處裡函式
-   +  [MainWindow.py](https://github.com/Night2155/ImageProcessing/blob/master/MainWindow.py)
-      + 主程式介面設計
-       
+   [Call_MainWindow_V3.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/Call_MainWindow_V3.py)
+   ```
+      程式啟動
+      介面物件呼叫函式
+   ```
+   [ImageProcessing.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/ImageProcessing.py)
+   ```
+      影像處裡函式
+   ```
+   [MainWindow_V3.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/MainWindow_V3.py)
+   ```
+      主程式介面設計
+   ``` 
