@@ -19,7 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.oriWidth = self.ui.ImageLabel.width()
 
         # GIF Label
-        movie = QtGui.QMovie("image\\PartyBird.gif")  # 設定 Gif
+        movie = QtGui.QMovie("E:\\ImageProcessing\\image\\PartyBird.gif")  # 設定 Gif
         self.ui.Gif_Label.setMovie(movie)  # 放入 Label 輸出
         movie.start()  # GIF 播放
         # Menu 1 選單
