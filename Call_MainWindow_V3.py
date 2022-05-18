@@ -2,7 +2,6 @@ import numpy as np
 import os
 from PyQt5 import QtWidgets, QtGui, QtCore
 from ImageProcess import ImageProcess
-
 from MainWindow_V3 import Ui_MainWindow  # 引入主畫面設計
 import sys
 import cv2 as cv

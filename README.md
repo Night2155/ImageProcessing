@@ -42,6 +42,18 @@
 
  ![interface](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/image/interface_v3.png)
 
+# 程式優化與BUG說明
+
+本次優化
+```
+(1.) 程式介面縮放
+(2.) 仿設轉換閥值輸入方式改善 (Slider)
+(3.) 影像處理程式重構
+```
+BUG說明
+```
+(1.) 仿設轉換功能正常，但不能重複按下按鍵，否則圖片會歪曲
+```
 # 程式檔案說明
    +  [Call_MainWindow_V3.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/Call_MainWindow_V3.py)
       + 程式啟動
@@ -50,15 +62,3 @@
       + 影像處裡函式
    +  [MainWindow_V3.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/MainWindow_V3.py)
       + 主程式介面設計
-
-# 程式優化與BUG說明
-
-本次優化
-```
-(1.) 程式介面縮放
-(2.) 仿設轉換閥值輸入方式改善 (Slider)
-```
-BUG說明
-```
-(1.) 仿設轉換功能正常，但不能重複按下按鍵，否則圖片會歪曲
-```
