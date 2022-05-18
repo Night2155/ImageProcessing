@@ -652,6 +652,9 @@
    </property>
   </action>
   <action name="actionROI">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>選取 ROI</string>
    </property>
@@ -702,6 +705,11 @@
    </property>
    <property name="text">
     <string>重置數值</string>
+   </property>
+  </action>
+  <action name="actionPainting">
+   <property name="text">
+    <string>畫圖功能</string>
    </property>
   </action>
  </widget>

@@ -1,7 +1,7 @@
 import cv2 as cv
 import matplotlib.pyplot as plt
 import numpy as np
-
+from Function import Functions
 class ImageProcess():
 
     def GrayImg(oriimg):

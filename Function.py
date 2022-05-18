@@ -3,9 +3,9 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 import os
 import cv2 as cv
 
-class Function():
+class Functions():
     def __init__(self):
-        super(Function, self).__init__()
+        super(Functions, self).__init__()
 
     def Gif(self):
         # GIF Label
@@ -53,3 +53,27 @@ class Function():
         self.ui.MinThresholdSlider.setEnabled(True)
         self.ui.actionResetValue.setEnabled(True)
         self.ui.Set_Threshold_Value_Slider.setEnabled(True)
+
+    def Painting(self, x, y, w, h):
+        painter = QtGui.QPainter(self.ui.ImageLabel.pixmap())
+        pen = QtGui.QPen()
+        pen.setWidth(3)
+        pen.setColor(QtGui.QColor('red'))
+        painter.setPen(pen)
+        painter.drawRect(x, y, w, h)
+        painter.end()
+
+    def Reset(self):
+        self.ui.AngelSlider.setValue(0)
+        self.AngelValueChange()
+        self.ui.horizontalMoveSlider.setValue(0)
+        self.ui.VerticalMoveSlider.setValue(0)
+        self.Slider_Move_Image()
+        self.ui.ScaleSlider.setValue(0)
+        self.ScaleValueChange()
+        self.ui.Set_Threshold_Value_Slider.setValue(127)
+        self.Threshold_Value_Change()
+        self.ui.MaxThresholdSlider.setValue(400)
+        self.ui.MinThresholdSlider.setValue(0)
+        self.MaxThresoldChange()
+        self.MinThresoldChange()

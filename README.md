@@ -1,4 +1,4 @@
-# ImageProcessing 影像處理平台開發 V3.0
+# ImageProcessing 影像處理平台開發 V3.5
 
    ![partybird](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V2/image/PartyBird.gif)
 + 程式語言 Python
@@ -16,6 +16,7 @@
     載入影像 
     儲存影像
     關閉平台
+    重置數值(Slider數值) New !!!
     ```
 2. 色彩選項 (轉換色彩通道)
     ```
@@ -55,8 +56,7 @@
 
 本次優化
 ```
-(1.) 程式介面縮放
-(2.) 仿設轉換閥值輸入方式改善 (Slider)
+(1.) 新增重置數值按鈕
 ```
 BUG說明
 ```
