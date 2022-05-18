@@ -1,7 +1,8 @@
 import numpy as np
 import os
 from PyQt5 import QtWidgets, QtGui, QtCore
-import ImageProcess
+from ImageProcess import ImageProcess
+
 from MainWindow_V3 import Ui_MainWindow  # 引入主畫面設計
 import sys
 import cv2 as cv
@@ -136,32 +137,28 @@ class MainWindow(QtWidgets.QMainWindow):
         img_gray = ImageProcess.GrayImg(self.oriImg)
         self.Show_On_ImageLabel(img_gray)
         self.Statusbar_Show_Message("灰階影像")
-        self.ui.Set_Threshold_Value_Slider.setEnabled(False)
         self.counter = 0
 
     def ImageRGB(self):  # 轉換為原始圖片
         self.Show_On_ImageLabel(self.oriImg)
         self.ui.statusbar.showMessage("RGB影像")
-        self.ui.Set_Threshold_Value_Slider.setEnabled(False)
         self.counter = 0
 
     def image_Hist(self):  # 灰階影像均衡化
         img_hist = ImageProcess.Histogram(self.oriImg)
         self.Show_On_ImageLabel(img_hist)
         self.Statusbar_Show_Message("影像均衡化")
-        self.ui.Set_Threshold_Value_Slider.setEnabled(False)
         self.counter = 0
 
     def image_Threshold(self):  # 顯示二值化後圖像
         threshold_image = ImageProcess.Thresholding(self.oriImg, self.ui.Set_Threshold_Value_Slider.value())
         self.Show_On_ImageLabel(threshold_image)
         self.Statusbar_Show_Message("二值化影像")
-        self.ui.Set_Threshold_Value_Slider.setEnabled(True)
         self.counter = 0
 
     def Threshold_Value_Change(self):  # 二值化 slider 改變數值
         self.ui.Text_label_Threshold_value.setText(str(self.ui.Set_Threshold_Value_Slider.value()))
-        self.image_Threshold()
+
 
     def ImageHSV(self):  # 轉換為HSV通道
         img_HSV = ImageProcess.HSV(self.oriImg)
@@ -220,14 +217,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def Affine_Transform(self):  # 仿射轉換
         height, width = self.oriImg.shape[:2]
+        Transform = self.cv2_image
         x = self.ui.VerticalMoveSlider.value()
         y = self.ui.horizontalMoveSlider.value()
         scale = self.ui.ScaleSlider.value()/10
         if x and y != 0:
             m = np.float32([[1, scale, x], [scale, 1, y]])
-            affineImg = cv.warpAffine(self.oriImg, m, (width, height))
+            affineImg = cv.warpAffine(Transform, m, (width, height))
             self.Show_On_ImageLabel(affineImg)
-            self.cv2_image = affineImg
         else:
             return 0
 
