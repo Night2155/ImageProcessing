@@ -45,13 +45,15 @@
  ![interface](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/image/interface_v3.png)
 
 # 程式檔案說明
-   +  [Call_MainWindow_V3.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3.5/Call_MainWindow_V3.py)
+   +  [Call_MainWindow_V3.py](https://github.com/Night2155/ImageProcessing/blob/HomeWork_V3.5/Call_MainWindow_V3.py)
       + 程式啟動
       + 介面物件呼叫函式
-   +  [ImageProcess.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3.5/ImageProcess.py)
+   +  [ImageProcess.py](https://github.com/Night2155/ImageProcessing/blob/HomeWork_V3.5/ImageProcess.py)
       + 影像處裡函式
-   +  [MainWindow_V3.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3.5/MainWindow_V3.py)
+   +  [MainWindow_V3.py](https://github.com/Night2155/ImageProcessing/blob/HomeWork_V3.5/MainWindow_V3.py)
       + 主程式介面設計
+   +  [Function.py](https://github.com/Night2155/ImageProcessing/blob/HomeWork_V3.5/Function.py)
+      + 物件處理函式
 
 # 程式優化與BUG說明
 
