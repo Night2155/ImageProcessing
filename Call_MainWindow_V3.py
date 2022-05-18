@@ -2,7 +2,7 @@ import numpy as np
 import os
 from PyQt5 import QtWidgets, QtGui, QtCore
 from ImageProcess import ImageProcess
-
+from Function import Function
 from MainWindow_V3 import Ui_MainWindow  # 引入主畫面設計
 import sys
 import cv2 as cv
@@ -22,17 +22,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.counter = 0
         self.oriHeight = self.ui.ImageLabel.height()
         self.oriWidth = self.ui.ImageLabel.width()
-
-        # GIF Label
-        movie = QtGui.QMovie("image\\PartyBird.gif")  # 設定 Gif
-        self.ui.Gif_Label.setMovie(movie)  # 放入 Label 輸出
-        movie.start()  # GIF 播放
+        Function.Gif(self)
 
     def MainWindow_Function_Binding(self):
         # Menu 1 選單
         self.ui.actionClose.triggered.connect(app.exit)  # 關閉平台
         self.ui.actionOpen_File.triggered.connect(self.OpenFile_chooseFile)  # 開啟影像
         self.ui.actionSave_File.triggered.connect(self.SaveFile)  # 儲存影像
+        self.ui.actionResetValue.triggered.connect(self.Reset_Value)
         # Menu 2 色彩選項
         self.ui.actionGray.triggered.connect(self.ImageGray)  # 轉換灰階影像
         self.ui.actionRGB.triggered.connect(self.ImageRGB)  # 轉換原始圖像
@@ -64,28 +61,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def Statusbar_Show_Message(self, message):
         self.ui.statusbar.showMessage(message)
 
-    # 顯示圖像在ImageLabel
-    def Show_On_ImageLabel(self, img):
-        self.cv2_image = img
-        if len(img.shape) == 3:
-            height, width, channel = img.shape
-            bytesPerline = 3 * width
-            self.qimg = QtGui.QImage(img, width, height, bytesPerline, QtGui.QImage.Format_RGB888).rgbSwapped()
-            pixmap = QtGui.QPixmap.fromImage(self.qimg)
-            self.Statusbar_Show_Message("RGB影像")
-        elif len(img.shape) == 2:
-            height, width = img.shape
-            bytesPerline = width
-            self.qGrayimg = QtGui.QImage(img, width, height, bytesPerline, QtGui.QImage.Format.Format_Indexed8)
-            pixmap = QtGui.QPixmap.fromImage(self.qGrayimg)
-
-        self.ui.scrollArea.setMaximumSize(width, height)
-        if height <= self.ui.scrollArea.height():
-            self.ui.scrollArea.setMaximumSize(QtCore.QSize(self.ui.scrollArea.width(), height))
-        if width <= self.ui.scrollArea.width():
-            self.ui.scrollArea.setMaximumSize(QtCore.QSize(width, self.ui.scrollArea.height()))
-        self.ui.ImageLabel.setPixmap(pixmap)
-
     # Menu1 選單函式
     def OpenFile_chooseFile(self):  # Open File
         self.file_name, file_type = QtWidgets.QFileDialog.getOpenFileName(self, "選擇檔案",
@@ -97,27 +72,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.Statusbar_Show_Message("開檔成功")
             self.oriImg = cv.imread(filename=self.file_name)  # 最初所載入的影像
             self.cv2_image = self.oriImg.copy()  # 目前Label所顯示的影像
-            self.Ui_Enabled_Setup()
-            self.Show_Image_Info_On_Label()
-            self.Show_On_ImageLabel(self.oriImg)
-
-    def Show_Image_Info_On_Label(self):
-        file_size = os.path.getsize(self.file_name)
-        filename = os.path.basename(self.file_name)
-        width, height = self.oriImg.shape[:2]
-        self.ui.Image_Info_label.setText(f"檔案名稱 : {filename} 檔案大小 : {round(file_size / 1024, 2)}KB 尺寸 : {height}X{width}")
-
-    def Ui_Enabled_Setup(self):
-        self.ui.menu_2.setEnabled(True)
-        self.ui.menu_3.setEnabled(True)
-        self.ui.menu_4.setEnabled(True)
-        self.ui.actionSave_File.setEnabled(True)
-        self.ui.ScaleSlider.setEnabled(True)  # 偏移倍率
-        self.ui.AngelSlider.setEnabled(True)  # 角度
-        self.ui.VerticalMoveSlider.setEnabled(True)  # 垂直
-        self.ui.horizontalMoveSlider.setEnabled(True)  # 水平
-        self.ui.MaxThresholdSlider.setEnabled(True)
-        self.ui.MinThresholdSlider.setEnabled(True)
+            Function.Ui_Enabled_Setup(self)
+            Function.Show_Image_Info_On_Label(self)
+            Function.Show_On_ImageLabel(self, self.oriImg)
 
     def SaveFile(self):  # 儲存影像
         if self.file_name == "":
@@ -132,27 +89,43 @@ class MainWindow(QtWidgets.QMainWindow):
                 cv.imwrite(savepath, self.cv2_image)
                 self.Statusbar_Show_Message("存檔成功")
 
+    def Reset_Value(self):
+        self.ui.AngelSlider.setValue(0)
+        self.AngelValueChange()
+        self.ui.horizontalMoveSlider.setValue(0)
+        self.ui.VerticalMoveSlider.setValue(0)
+        self.Slider_Move_Image()
+        self.ui.ScaleSlider.setValue(0)
+        self.ScaleValueChange()
+        self.ui.Set_Threshold_Value_Slider.setValue(127)
+        self.Threshold_Value_Change()
+        self.ui.MaxThresholdSlider.setValue(400)
+        self.ui.MinThresholdSlider.setValue(0)
+        self.MaxThresoldChange()
+        self.MinThresoldChange()
+
     # Menu2 色彩選項函式
     def ImageGray(self):  # 轉換為灰階影像
         img_gray = ImageProcess.GrayImg(self.oriImg)
-        self.Show_On_ImageLabel(img_gray)
+        Function.Show_On_ImageLabel(self,img_gray)
         self.Statusbar_Show_Message("灰階影像")
         self.counter = 0
 
     def ImageRGB(self):  # 轉換為原始圖片
-        self.Show_On_ImageLabel(self.oriImg)
+        Function.Show_On_ImageLabel(self,self.oriImg)
         self.ui.statusbar.showMessage("RGB影像")
+        # self.Reset_Value()
         self.counter = 0
 
     def image_Hist(self):  # 灰階影像均衡化
         img_hist = ImageProcess.Histogram(self.oriImg)
-        self.Show_On_ImageLabel(img_hist)
+        Function.Show_On_ImageLabel(self,img_hist)
         self.Statusbar_Show_Message("影像均衡化")
         self.counter = 0
 
     def image_Threshold(self):  # 顯示二值化後圖像
         threshold_image = ImageProcess.Thresholding(self.oriImg, self.ui.Set_Threshold_Value_Slider.value())
-        self.Show_On_ImageLabel(threshold_image)
+        Function.Show_On_ImageLabel(self,threshold_image)
         self.Statusbar_Show_Message("二值化影像")
         self.counter = 0
 
@@ -162,7 +135,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def ImageHSV(self):  # 轉換為HSV通道
         img_HSV = ImageProcess.HSV(self.oriImg)
-        self.Show_On_ImageLabel(img_HSV)
+        Function.Show_On_ImageLabel(self,img_HSV)
         self.Statusbar_Show_Message("HSV影像")
         self.counter = 0
 
@@ -224,7 +197,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if x and y != 0:
             m = np.float32([[1, scale, x], [scale, 1, y]])
             affineImg = cv.warpAffine(Transform, m, (width, height))
-            self.Show_On_ImageLabel(affineImg)
+            Function.Show_On_ImageLabel(self,affineImg)
         else:
             return 0
 
@@ -241,7 +214,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def GaussionBlur(self):  # 高斯濾波 模糊化
         GaussionImg = ImageProcess.Gaussion(self.oriImg, 21, 50)
         self.cv2_image = GaussionImg
-        self.Show_On_ImageLabel(GaussionImg)
+        Function.Show_On_ImageLabel(self,GaussionImg)
         self.Statusbar_Show_Message("影像模糊化")
 
     def Canny(self):  # Canny 邊緣擷取
@@ -251,13 +224,13 @@ class MainWindow(QtWidgets.QMainWindow):
         ClearImg = ImageProcess.Gaussion(GrayImg, 3, 0)
         CannyImg = ImageProcess.Canny(ClearImg, Max=int(self.Max), Min=int(self.Min))
         self.cv2_image = CannyImg
-        self.Show_On_ImageLabel(CannyImg)
+        Function.Show_On_ImageLabel(self,CannyImg)
         self.Statusbar_Show_Message("影像邊緣擷取")
 
     def ClearNoise(self):  # 中值濾波
         ClearImg = ImageProcess.Median(self.oriImg, 3, 0)
         self.cv2_image = ClearImg
-        self.Show_On_ImageLabel(ClearImg)
+        Function.Show_On_ImageLabel(self,ClearImg)
         self.Statusbar_Show_Message("雜訊處理")
 
     # Slider 旋轉影像
@@ -269,7 +242,7 @@ class MainWindow(QtWidgets.QMainWindow):
             angel = self.ui.AngelSlider.value()
             self.ui.AngelValue.setText(str(angel))
             TurnImg = ImageProcess.Change_Angel_Image(self.oriImg, angel, self.NoChange)
-            self.Show_On_ImageLabel(TurnImg)
+            Function.Show_On_ImageLabel(self,TurnImg)
 
     # 上下左右平移影像
     def Slider_Move_Image(self):
@@ -284,7 +257,7 @@ class MainWindow(QtWidgets.QMainWindow):
             elif self.sender() == self.ui.VerticalMoveSlider:
                 self.ui.MoveUpDownValue.setText(str(y))
             MoveImg = ImageProcess.Move_Image(self.oriImg, self.NoChange, x, y)
-            self.Show_On_ImageLabel(MoveImg)
+            Function.Show_On_ImageLabel(self,MoveImg)
 
     def MaxThresoldChange(self):
         self.ui.MaxThresholdValue.setText(str(self.ui.MaxThresholdSlider.value()))

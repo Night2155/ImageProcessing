@@ -550,6 +550,7 @@
     <addaction name="actionOpen_File"/>
     <addaction name="actionSave_File"/>
     <addaction name="actionClose"/>
+    <addaction name="actionResetValue"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="enabled">
@@ -693,6 +694,14 @@
   <action name="actionShow_Hist">
    <property name="text">
     <string>影像直方圖</string>
+   </property>
+  </action>
+  <action name="actionResetValue">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>重置數值</string>
    </property>
   </action>
  </widget>
