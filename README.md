@@ -8,6 +8,7 @@
    + [12th 鐵人賽 – 【錢不夠買ps的我，只好用OpenCV來修圖了!】](https://www.wongwonggoods.com/category/portfolio/12th_ironman/)
    + [仿射轉換](https://blog.csdn.net/liuweiyuxiang/article/details/82799999)
    + [透視投影轉換](https://blog.csdn.net/guduruyu/article/details/72518340)
+   + [畫圖功能](https://www.pythonguis.com/tutorials/bitmap-graphics/)
 
 基本功能 : 
 
