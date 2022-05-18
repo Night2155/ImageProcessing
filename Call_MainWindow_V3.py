@@ -120,7 +120,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def Threshold_Value_Change(self):  # 二值化 slider 改變數值
         self.ui.Text_label_Threshold_value.setText(str(self.ui.Set_Threshold_Value_Slider.value()))
 
-
     def ImageHSV(self):  # 轉換為HSV通道
         img_HSV = ImageProcess.HSV(self.oriImg)
         Functions.Show_On_ImageLabel(self,img_HSV)
@@ -206,7 +205,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def GaussionBlur(self):  # 高斯濾波 模糊化
         GaussionImg = ImageProcess.Gaussion(self.oriImg, 21, 50)
         self.cv2_image = GaussionImg
-        Functions.Show_On_ImageLabel(self,GaussionImg)
+        Functions.Show_On_ImageLabel(self, GaussionImg)
         self.Statusbar_Show_Message("影像模糊化")
 
     def Canny(self):  # Canny 邊緣擷取
@@ -216,13 +215,13 @@ class MainWindow(QtWidgets.QMainWindow):
         ClearImg = ImageProcess.Gaussion(GrayImg, 3, 0)
         CannyImg = ImageProcess.Canny(ClearImg, Max=int(self.Max), Min=int(self.Min))
         self.cv2_image = CannyImg
-        Functions.Show_On_ImageLabel(self,CannyImg)
+        Functions.Show_On_ImageLabel(self, CannyImg)
         self.Statusbar_Show_Message("影像邊緣擷取")
 
     def ClearNoise(self):  # 中值濾波
         ClearImg = ImageProcess.Median(self.oriImg, 3, 0)
         self.cv2_image = ClearImg
-        Functions.Show_On_ImageLabel(self,ClearImg)
+        Functions.Show_On_ImageLabel(self, ClearImg)
         self.Statusbar_Show_Message("雜訊處理")
 
     # Slider 旋轉影像
