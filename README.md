@@ -1,4 +1,4 @@
-# ImageProcessing 影像處理平台開發 V3.5
+# ImageProcessing 影像處理平台開發
 
    ![partybird](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V2/image/PartyBird.gif)
 + 程式語言 Python
