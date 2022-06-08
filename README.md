@@ -53,13 +53,3 @@
    +  [MainWindow_V3.py](https://github.com/Night2155/ImageProcessing/blob/HOMEWORK_V3/MainWindow_V3.py)
       + 主程式介面設計
 
-# 程式優化與BUG說明
-
-本次優化
-```
-(1.) 新增重置數值按鈕
-```
-BUG說明
-```
-(1.) 仿設轉換功能正常，但不能重複按下按鍵，否則圖片會歪曲
-```
